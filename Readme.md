@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Fedor Gorokhov](https://up.htmlacademy.ru/react/7/user/1263893).
-* Наставник: `Неизвестно`.
+* Наставник: `Jura Zubach`.
 
 ---
 
