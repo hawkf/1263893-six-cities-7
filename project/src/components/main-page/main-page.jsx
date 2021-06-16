@@ -1,14 +1,11 @@
 import React from 'react';
 import Card from '../card/card';
 import PropTypes from 'prop-types';
+import cardProp from '../card/card.prop';
+import {CardList} from '../card/card-list';
 
 export default function MainPage(props) {
-  const {cardsNumber} = props;
-  const cards = new Array(cardsNumber);
-
-  for (let i = 1; i <= cardsNumber; i++) {
-    cards[i - 1] = i;
-  }
+  const {offers} = props;
 
   return (
     <div className="page page--gray page--main">
@@ -98,9 +95,7 @@ export default function MainPage(props) {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {cards.map((entry, i) => <Card key={entry}/>)}
-              </div>
+              <CardList offers={offers}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
@@ -113,5 +108,7 @@ export default function MainPage(props) {
 }
 
 MainPage.propTypes = {
-  cardsNumber: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(
+    PropTypes.oneOfType([cardProp]).isRequired,
+  ),
 };
