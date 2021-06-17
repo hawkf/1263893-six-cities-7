@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch, useParams} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MainPage from '../main-page/main-page';
 import LoginScreen from '../login-screen/login-screen';
@@ -15,18 +15,14 @@ function App(props) {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path={AppRoute.ROOT}>
-          <MainPage offers={offers}/>
-        </Route>
+        <Route exact path={AppRoute.ROOT} render={(props) => <MainPage offers={offers} {...props}/>}/>
         <Route exact path={AppRoute.LOGIN}>
           <LoginScreen/>
         </Route>
         <Route exact path={AppRoute.FAVORITES}>
           <FavoritesScreen favoriteOffers={offers.filter((offer) => offer.isFavorite)}/>
         </Route>
-        <Route exact path={AppRoute.OFFER}>
-          <OfferScreen offer={offers[0]} comments={comments}/>
-        </Route>
+        <Route exact path={AppRoute.OFFER} render={(props)=> <OfferScreen offers={offers} comments={comments} {...props}/>}/>
         <Route>
           <NotFoundScreen/>
         </Route>
@@ -37,10 +33,10 @@ function App(props) {
 
 App.propTypes = {
     offers: PropTypes.arrayOf(
-    PropTypes.oneOfType([cardProp]).isRequired,
+    cardProp,
   ),
     comments: PropTypes.arrayOf(
-      PropTypes.oneOfType([offerScreenProp]).isRequired,
+      offerScreenProp,
     )
 };
 

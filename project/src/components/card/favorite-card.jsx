@@ -6,7 +6,7 @@ import {transformRating} from '../../utils/offer';
 export function FavoriteCard(props) {
   const {offer} = props;
   const {cardImage, price, rating, title, type} = offer;
-  const transformedRating = transformRating(rating);
+  const transformedRating = transformRating(rating) + '%';
 
   return (<article className="favorites__card place-card">
     <div className="favorites__image-wrapper place-card__image-wrapper">
