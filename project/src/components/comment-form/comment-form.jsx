@@ -7,7 +7,12 @@ export function CommentForm() {
   function onRatingChangeHandle(evt) {
     setRating(evt.target.value);
     console.log(evt.target.defaultValue);
-    console.log(rating);
+    setTimeout(() => console.log(rating), 5000);
+
+  }
+
+  function handleTextChange(evt) {
+    setText(evt.target.value)
   }
 
   return (<form className="reviews__form form" action="#" method="post">
@@ -54,7 +59,7 @@ export function CommentForm() {
         </svg>
       </label>
     </div>
-    <textarea className="reviews__textarea form__textarea" id="review" name="review"
+    <textarea value={text} onChange={handleTextChange} className="reviews__textarea form__textarea" id="review" name="review"
               placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
     <div className="reviews__button-wrapper">
       <p className="reviews__help">
