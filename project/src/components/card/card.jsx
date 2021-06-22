@@ -11,8 +11,11 @@ function Card({offer, onMouseOver}) {
   const {cardImage, price, rating, title, type, isPremium} = offer;
   const ratingWidth = transformRating(rating);
 
+  function onClickHandle() {
+    history.push(OFFER_PAGE);
+  }
   return (
-    <article onMouseOver={() => onMouseOver()} onClick={() => history.push(OFFER_PAGE)} className="cities__place-card place-card">
+    <article onMouseOver={onMouseOver} onClick={onClickHandle} className="cities__place-card place-card">
       <CardMark isPremium={isPremium}/>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={OFFER_PAGE}>
