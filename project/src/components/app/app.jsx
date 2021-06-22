@@ -12,6 +12,7 @@ import cardProp from '../card/card.prop';
 function App(props) {
   const {offers} = props;
   const favoriteOffers=offers.filter((offer) => offer.isFavorite);
+  
   return (
     <BrowserRouter>
       <Switch>
