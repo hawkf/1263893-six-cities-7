@@ -15,7 +15,9 @@ function App(props) {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path={AppRoute.ROOT} render={(props) => <MainPage offers={offers} {...props}/>}/>
+        <Route exact path={AppRoute.ROOT}>
+          <MainPage {...props}/>
+        </Route>
         <Route exact path={AppRoute.LOGIN}>
           <LoginScreen/>
         </Route>

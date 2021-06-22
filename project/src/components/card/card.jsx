@@ -1,13 +1,13 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CardMark from './card-mark';
 import cardProp from './card.prop';
 import {transformRating} from '../../utils/offer';
-import {AppRoute} from '../../const';
 
 function Card(props) {
-  const {offer, onMouseOver, history} = props;
+  const history = useHistory();
+  const {offer, onMouseOver} = props;
   const OFFER_PAGE = '/offer/' + offer.id;
   const {cardImage, price, rating, title, type, isPremium} = offer;
   const ratingStyle = transformRating(rating) + '%';

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Card from "./card";
 
 export function CardList(props) {
-  const {offers, history} = props;
+  const {offers} = props;
   const [hoverOffer, setHoverOffer] = useState(offers[0]);
 
 
@@ -15,7 +15,5 @@ export function CardList(props) {
 }
 
 CardList.propTypes = {
-  offers: PropTypes.arrayOf(
-    PropTypes.oneOfType([cardProp]).isRequired,
-  ),
+  offers: PropTypes.arrayOf(cardProp),
 }

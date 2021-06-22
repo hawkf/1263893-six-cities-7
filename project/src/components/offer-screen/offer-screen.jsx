@@ -10,7 +10,7 @@ import {NearPlaceCard} from "../card/near-place-card";
 import {CommentForm} from "../comment-form/comment-form";
 
 function OfferScreen(props) {
-  const {match, offers, comments, history} = props;
+  const {match, offers, comments} = props;
   const id = match.params.id;
   const offer = offers.find(item => item.id === id);
   const {images, description, bedrooms, maxAdults, goods, host, price, rating, title, type, isPremium} = offer;
