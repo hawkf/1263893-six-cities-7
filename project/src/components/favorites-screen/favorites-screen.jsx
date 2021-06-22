@@ -1,12 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cardProp from '../card/card.prop'
+import cardProp from '../card/card.prop';
 import {FavoriteCard} from '../card/favorite-card';
 import {Logo} from '../logo/logo';
+import {Link} from 'react-router-dom';
+import {AppRoute} from '../../const';
+
+function getCityFavoriteOffers(cityName, favoriteOffers) {
+  const resultFavoriteOffers = favoriteOffers.filter(((item) => item.cityName === cityName));
+  return resultFavoriteOffers.map((offer) => <FavoriteCard offer={offer} key={offer.id}/>);
+}
 
 function FavoritesScreen(props) {
   const {favoriteOffers} = props;
-  const cityNames = Array.from(new Set(favoriteOffers.map(item => item.cityName)));
+  const cityNames = Array.from(new Set(favoriteOffers.map((item) => item.cityName)));
+
   return (
     <div className="page">
       <header className="header">
@@ -16,11 +24,11 @@ function FavoritesScreen(props) {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.FAVORITES}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#">
@@ -38,8 +46,8 @@ function FavoritesScreen(props) {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {cityNames.map((cityName) => {
-                return (<li key={cityName} className="favorites__locations-items">
+              {cityNames.map((cityName) => (
+                <li key={cityName} className="favorites__locations-items">
                   <div className="favorites__locations locations locations--current">
                     <div className="locations__item">
                       <a className="locations__item-link" href="#">
@@ -48,12 +56,9 @@ function FavoritesScreen(props) {
                     </div>
                   </div>
                   <div className="favorites__places">
-                    {favoriteOffers.filter((item => item.cityName === cityName)).map((offer) => {
-                      return (<FavoriteCard offer={offer} key={offer.id}/>)
-                    })}
-                </div>
-                </li>)
-              })}
+                    {getCityFavoriteOffers(cityName, favoriteOffers)}
+                  </div>
+                </li>))}
             </ul>
           </section>
         </div>
@@ -66,9 +71,11 @@ function FavoritesScreen(props) {
     </div>
   );
 }
+
 FavoritesScreen.propTypes = {
   favoriteOffers: PropTypes.arrayOf(
-    PropTypes.oneOfType([cardProp]).isRequired
+    PropTypes.oneOfType([cardProp]).isRequired,
   ),
-}
+};
+
 export default FavoritesScreen;

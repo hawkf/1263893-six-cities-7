@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 
 const MAX_RATING = 5;
 
@@ -11,6 +11,6 @@ export function sortByDate(commentA, commentB) {
 }
 
 export function humanizeCommentDate(date) {
-  return dayjs(date).format('MMMM YYYY');
+  return `${dayjs(date).format('MMMM YYYY')}%`;
 }
 

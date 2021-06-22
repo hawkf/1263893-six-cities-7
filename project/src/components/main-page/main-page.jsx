@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import cardProp from '../card/card.prop';
 import {CardList} from '../card/card-list';
@@ -7,7 +7,8 @@ import {AppRoute} from '../../const';
 import {Logo} from '../logo/logo';
 
 export default function MainPage(props) {
-  const {offers, history} = props;
+  const history = useHistory();
+  const {offers} = props;
 
   return (
     <div className="page page--gray page--main">

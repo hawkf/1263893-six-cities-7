@@ -5,16 +5,15 @@ import CardMark from './card-mark';
 import cardProp from './card.prop';
 import {transformRating} from '../../utils/offer';
 
-function Card(props) {
+function Card({offer, onMouseOver}) {
   const history = useHistory();
-  const {offer, onMouseOver} = props;
-  const OFFER_PAGE = '/offer/' + offer.id;
+  const OFFER_PAGE = `/offer/${offer.id}`;
   const {cardImage, price, rating, title, type, isPremium} = offer;
-  const ratingStyle = transformRating(rating) + '%';
+  const ratingWidth = transformRating(rating);
 
   return (
     <article onMouseOver={() => onMouseOver()} onClick={() => history.push(OFFER_PAGE)} className="cities__place-card place-card">
-      {isPremium && <CardMark/>}
+      <CardMark isPremium={isPremium}/>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={OFFER_PAGE}>
           <img className="place-card__image" src={cardImage} width="260" height="200" alt="Place image"/>
@@ -35,7 +34,7 @@ function Card(props) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: ratingStyle}}></span>
+            <span style={{width: ratingWidth}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -51,6 +50,6 @@ function Card(props) {
 Card.propTypes = {
   offer: cardProp,
   onMouseOver: PropTypes.func.isRequired,
-}
+};
 
 export default Card;

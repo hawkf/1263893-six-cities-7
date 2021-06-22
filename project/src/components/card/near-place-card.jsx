@@ -1,17 +1,20 @@
 import React from 'react';
 import {transformRating} from '../../utils/offer';
-import {Link} from 'react-router-dom';
-import cardProp from "./card.prop";
-import PropTypes from "prop-types";
+import {Link, useHistory} from 'react-router-dom';
+import cardProp from './card.prop';
 
-export function NearPlaceCard(props) {
-  const {offer, history} = props;
-  const OFFER_PAGE = '/offer/' + offer.id;
+export function NearPlaceCard({offer}) {
+  const history = useHistory();
+  const OFFER_PAGE = `/offer/${offer.id}`;
   const {cardImage, price, rating, title, type} = offer;
-  const ratingStyle = transformRating(rating) + '%';
+  const ratingWidth = transformRating(rating);
+
+  function onClickHandle() {
+    history.push(OFFER_PAGE);
+  }
 
   return (
-    <article onClick={() => history.push(OFFER_PAGE)} className="near-places__card place-card">
+    <article onClick={onClickHandle} className="near-places__card place-card">
       <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={OFFER_PAGE}>
           <img className="place-card__image" src={cardImage} width="260" height="200" alt="Place image"/>
@@ -32,7 +35,7 @@ export function NearPlaceCard(props) {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: ratingStyle}}></span>
+            <span style={{width: ratingWidth}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
@@ -47,4 +50,4 @@ export function NearPlaceCard(props) {
 
 NearPlaceCard.propTypes = {
   offer: cardProp,
-}
+};

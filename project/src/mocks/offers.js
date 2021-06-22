@@ -1,10 +1,8 @@
-import {nanoid} from 'nanoid';
-
 const AVATAR_URL = 'https://i.pravatar.cc/128';
 
 export const offers = [
   {
-    id: nanoid(),
+    id: '1',
     cityName: 'Amsterdam',
     isFavorite: true,
     images: ['img/apartment-01.jpg', 'img/room.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
@@ -14,7 +12,7 @@ export const offers = [
     goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     host: {
       avatarUrl: `${AVATAR_URL}?rnd=${Math.random()}`,
-      id: nanoid(),
+      id: '1',
       isPro: true,
       name: 'Angelina',
     },
@@ -26,7 +24,7 @@ export const offers = [
     isPremium: true,
   },
   {
-    id: nanoid(),
+    id: '2',
     cityName: 'Cologne',
     isFavorite: true,
     images: ['img/apartment-01.jpg', 'img/room.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
@@ -36,7 +34,7 @@ export const offers = [
     goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     host: {
       avatarUrl: `${AVATAR_URL}?rnd=${Math.random()}`,
-      id: nanoid(),
+      id: '2',
       isPro: true,
       name: 'Angelina',
     },
@@ -48,7 +46,7 @@ export const offers = [
     isPremium: false,
   },
   {
-    id: nanoid(),
+    id: '3',
     cityName: 'Cologne',
     isFavorite: true,
     images: ['img/apartment-01.jpg', 'img/room.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
@@ -58,7 +56,7 @@ export const offers = [
     goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     host: {
       avatarUrl: `${AVATAR_URL}?rnd=${Math.random()}`,
-      id: nanoid(),
+      id: '3',
       isPro: true,
       name: 'Angelina',
     },
@@ -70,7 +68,7 @@ export const offers = [
     isPremium: true,
   },
   {
-    id: nanoid(),
+    id: '4',
     isFavorite: false,
     cityName: 'Cologne',
     images: ['img/apartment-01.jpg', 'img/room.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
@@ -80,7 +78,7 @@ export const offers = [
     goods: ['Heating', 'Kitchen', 'Cable TV', 'Washing machine', 'Coffee machine', 'Dishwasher'],
     host: {
       avatarUrl: `${AVATAR_URL}?rnd=${Math.random()}`,
-      id: nanoid(),
+      id: '4',
       isPro: true,
       name: 'Angelina',
     },
@@ -90,7 +88,7 @@ export const offers = [
     title: 'Nice, cozy, warm big bed apartment',
     type: 'apartment',
     isPremium: false,
-  }
-]
+  },
+];
 
 
