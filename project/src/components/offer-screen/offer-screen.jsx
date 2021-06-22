@@ -1,4 +1,5 @@
 import React from 'react';
+import {useParams} from 'react-router-dom';
 import {ReviewsItem} from './reviews-item';
 import PropTypes from 'prop-types';
 import cardProp from '../card/card.prop';
@@ -10,8 +11,8 @@ import {NearPlaceCard} from "../card/near-place-card";
 import {CommentForm} from "../comment-form/comment-form";
 
 function OfferScreen(props) {
-  const {match, offers, comments} = props;
-  const id = match.params.id;
+  let {id} = useParams();
+  const {offers, comments} = props;
   const offer = offers.find(item => item.id === id);
   const {images, description, bedrooms, maxAdults, goods, host, price, rating, title, type, isPremium} = offer;
   const ratingStyle = transformRating(rating) + '%';

@@ -24,7 +24,9 @@ function App(props) {
         <Route exact path={AppRoute.FAVORITES}>
           <FavoritesScreen favoriteOffers={offers.filter((offer) => offer.isFavorite)}/>
         </Route>
-        <Route exact path={AppRoute.OFFER} render={(props)=> <OfferScreen offers={offers} comments={comments} {...props}/>}/>
+        <Route exact path={AppRoute.OFFER}>
+          <OfferScreen {...props}/>
+        </Route>
         <Route>
           <NotFoundScreen/>
         </Route>
