@@ -1,15 +1,16 @@
-import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import cardProp from '../card/card.prop';
 import {CardList} from '../card/card-list';
 import {AppRoute} from '../../const';
 import {Logo} from '../logo/logo';
+import {Map} from '../map/map';
 
 export default function MainPage(props) {
-  const history = useHistory();
-  const {offers} = props;
-
+  const [activeOfferId, setActiveOfferId] = useState(null);
+  function onCardHoverHandler(offerId) {
+    setActiveOfferId(offerId);
+  }
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -94,11 +95,9 @@ export default function MainPage(props) {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <CardList offers={offers} history={history}/>
+              <CardList onCardHover={onCardHoverHandler} {...props} />
             </section>
-            <div className="cities__right-section">
-              <section className="cities__map map"></section>
-            </div>
+            <Map activeOfferId={activeOfferId} {...props}/>
           </div>
         </div>
       </main>
@@ -107,7 +106,6 @@ export default function MainPage(props) {
 }
 
 MainPage.propTypes = {
-  offers: PropTypes.arrayOf(
-    PropTypes.oneOfType([cardProp]).isRequired,
-  ),
+  onCardHover: PropTypes.func.isRequired,
+  activeOfferId: PropTypes.number.isRequired,
 };

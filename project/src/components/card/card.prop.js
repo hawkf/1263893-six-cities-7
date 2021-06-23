@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 export default PropTypes.shape({
   id: PropTypes.string.isRequired,
   cityName: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    latitude: PropTypes.number.isRequired,
+    longitude: PropTypes.number.isRequired,
+  }),
   isFavorite: PropTypes.bool.isRequired,
   images: PropTypes.arrayOf(
     PropTypes.string.isRequired,
