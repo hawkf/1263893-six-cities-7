@@ -4,32 +4,47 @@ import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
 import useMap from './useMap';
 import cardProp from '../card/card.prop';
+import {DEFAULT_MARKER_URL, CURRENT_MARKER_URL} from '../../const';
 
-
-export function Map({offers}) {
+export function Map({offers, activeOfferId}) {
   const mapRef = useRef();
-  const locations = offers.map((item) => item.location);
   const map = useMap(mapRef, offers[0].location);
-  const icon = leaflet.icon({
-    iconUrl: 'img/pin.svg',
+  const defaultIcon = leaflet.icon({
+    iconUrl: DEFAULT_MARKER_URL,
+    iconSize: [30, 30],
+    iconAnchor: [15, 30],
+  });
+  const currentIcon = leaflet.icon({
+    iconUrl: CURRENT_MARKER_URL,
     iconSize: [30, 30],
     iconAnchor: [15, 30],
   });
 
   useEffect(() => {
+    const markers = leaflet.layerGroup();
+
     if (map) {
-      locations.forEach((location) => {
+      markers.addTo(map);
+
+      offers.forEach(({ location: { latitude, longitude }, id }) => {
         leaflet
-          .marker({
-            lat: location.latitude,
-            lng: location.longitude,
-          }, {
-            icon: icon,
-          })
-          .addTo(map);
+          .marker(
+            {
+              lat: latitude,
+              lng: longitude,
+            },
+            {
+              icon: activeOfferId === id ? currentIcon : defaultIcon,
+            },
+          )
+          .addTo(markers);
       });
     }
-  }, [map, locations]);
+
+    return () => {
+      markers.clearLayers();
+    };
+  }, [map, offers, activeOfferId]);
 
   return (
     <div className="cities__right-section">
@@ -43,4 +58,5 @@ Map.propTypes = {
   offers: PropTypes.arrayOf(
     cardProp,
   ),
+  activeOfferId: PropTypes.number.isRequired,
 };
