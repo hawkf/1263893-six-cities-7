@@ -1,33 +1,29 @@
 import React from 'react';
-import Card from '../card/card';
+import {Link, useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import cardProp from '../card/card.prop';
+import {CardList} from '../card/card-list';
+import {AppRoute} from '../../const';
+import {Logo} from '../logo/logo';
 
 export default function MainPage(props) {
-  const {cardsNumber} = props;
-  const cards = new Array(cardsNumber);
-
-  for (let i = 1; i <= cardsNumber; i++) {
-    cards[i - 1] = i;
-  }
+  const history = useHistory();
+  const {offers} = props;
 
   return (
     <div className="page page--gray page--main">
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
-            <div className="header__left">
-              <a className="header__logo-link header__logo-link--active">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
-            </div>
+            <Logo/>
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.FAVORITES}>
                     <div className="header__avatar-wrapper user__avatar-wrapper">
                     </div>
                     <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </a>
+                  </Link>
                 </li>
                 <li className="header__nav-item">
                   <a className="header__nav-link" href="#">
@@ -98,9 +94,7 @@ export default function MainPage(props) {
                   <li className="places__option" tabIndex="0">Top rated first</li>
                 </ul>
               </form>
-              <div className="cities__places-list places__list tabs__content">
-                {cards.map((entry, i) => <Card key={entry}/>)}
-              </div>
+              <CardList offers={offers} history={history}/>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map"></section>
@@ -113,5 +107,7 @@ export default function MainPage(props) {
 }
 
 MainPage.propTypes = {
-  cardsNumber: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(
+    PropTypes.oneOfType([cardProp]).isRequired,
+  ),
 };

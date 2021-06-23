@@ -1,4 +1,5 @@
 import React from 'react';
+import {Logo} from '../logo/logo';
 
 function LoginScreen() {
   return (
@@ -7,9 +8,7 @@ function LoginScreen() {
         <div className="container">
           <div className="header__wrapper">
             <div className="header__left">
-              <a className="header__logo-link" href="main.html">
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41"/>
-              </a>
+              <Logo/>
             </div>
             <nav className="header__nav">
               <ul className="header__nav-list">
@@ -37,8 +36,7 @@ function LoginScreen() {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input className="login__input form__input" type="password" name="password" placeholder="Password"
-                       required=""/>
+                <input className="login__input form__input" type="password" name="password" placeholder="Password" required=""/>
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>

@@ -6,24 +6,27 @@ import LoginScreen from '../login-screen/login-screen';
 import OfferScreen from '../offer-screen/offer-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import {AppRoute} from '../../const';
-import FavoritesScreen from "../favorites-screen/favorites-screen";
+import FavoritesScreen from '../favorites-screen/favorites-screen';
+import cardProp from '../card/card.prop';
 
 function App(props) {
-  const {cardsNumber} = props;
+  const {offers} = props;
+  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <MainPage cardsNumber={cardsNumber}/>
+          <MainPage {...props}/>
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <LoginScreen/>
         </Route>
         <Route exact path={AppRoute.FAVORITES}>
-          <FavoritesScreen/>
+          <FavoritesScreen favoriteOffers={favoriteOffers}/>
         </Route>
         <Route exact path={AppRoute.OFFER}>
-          <OfferScreen/>
+          <OfferScreen {...props}/>
         </Route>
         <Route>
           <NotFoundScreen/>
@@ -34,7 +37,9 @@ function App(props) {
 }
 
 App.propTypes = {
-  cardsNumber: PropTypes.number.isRequired,
+  offers: PropTypes.arrayOf(
+    cardProp,
+  ),
 };
 
 export default App;

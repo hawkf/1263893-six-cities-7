@@ -1,23 +1,21 @@
 import React from 'react';
-import {Link, useHistory} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import CardMark from './card-mark';
-import cardProp from './card.prop';
 import {transformRating} from '../../utils/offer';
+import {Link, useHistory} from 'react-router-dom';
+import cardProp from './card.prop';
 
-function Card({offer, onMouseOver}) {
+export function NearPlaceCard({offer}) {
   const history = useHistory();
   const OFFER_PAGE = `/offer/${offer.id}`;
-  const {cardImage, price, rating, title, type, isPremium} = offer;
+  const {cardImage, price, rating, title, type} = offer;
   const ratingWidth = transformRating(rating);
 
   function onClickHandle() {
     history.push(OFFER_PAGE);
   }
+
   return (
-    <article onMouseOver={onMouseOver} onClick={onClickHandle} className="cities__place-card place-card">
-      <CardMark isPremium={isPremium}/>
-      <div className="cities__image-wrapper place-card__image-wrapper">
+    <article onClick={onClickHandle} className="near-places__card place-card">
+      <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={OFFER_PAGE}>
           <img className="place-card__image" src={cardImage} width="260" height="200" alt="Place image"/>
         </Link>
@@ -50,9 +48,6 @@ function Card({offer, onMouseOver}) {
   );
 }
 
-Card.propTypes = {
+NearPlaceCard.propTypes = {
   offer: cardProp,
-  onMouseOver: PropTypes.func.isRequired,
 };
-
-export default Card;
