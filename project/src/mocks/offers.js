@@ -4,6 +4,11 @@ export const offers = [
   {
     id: '1',
     cityName: 'Amsterdam',
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 10,
+    },
     isFavorite: true,
     images: ['img/apartment-01.jpg', 'img/room.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -26,6 +31,11 @@ export const offers = [
   {
     id: '2',
     cityName: 'Cologne',
+    location: {
+      latitude: 52.369553943508,
+      longitude: 4.85309666406198,
+      zoom: 10,
+    },
     isFavorite: true,
     images: ['img/apartment-01.jpg', 'img/room.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -48,6 +58,11 @@ export const offers = [
   {
     id: '3',
     cityName: 'Cologne',
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 10,
+    },
     isFavorite: true,
     images: ['img/apartment-01.jpg', 'img/room.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
@@ -71,6 +86,11 @@ export const offers = [
     id: '4',
     isFavorite: false,
     cityName: 'Cologne',
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 10,
+    },
     images: ['img/apartment-01.jpg', 'img/room.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.',
     bedrooms: 5,

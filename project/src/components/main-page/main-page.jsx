@@ -5,6 +5,7 @@ import cardProp from '../card/card.prop';
 import {CardList} from '../card/card-list';
 import {AppRoute} from '../../const';
 import {Logo} from '../logo/logo';
+import {Map} from '../map/map';
 
 export default function MainPage(props) {
   const history = useHistory();
@@ -96,9 +97,7 @@ export default function MainPage(props) {
               </form>
               <CardList offers={offers} history={history}/>
             </section>
-            <div className="cities__right-section">
-              <section className="cities__map map"></section>
-            </div>
+            <Map offers={offers}/>
           </div>
         </div>
       </main>
