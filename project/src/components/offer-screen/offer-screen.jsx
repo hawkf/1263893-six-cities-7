@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, useParams} from 'react-router-dom';
+import {Link, useParams, Redirect} from 'react-router-dom';
 import {ReviewsItem} from './reviews-item';
 import PropTypes from 'prop-types';
 import cardProp from '../card/card.prop';
@@ -14,6 +14,9 @@ import {AppRoute} from '../../const';
 function OfferScreen({offers, comments}) {
   const {id} = useParams();
   const offer = offers.find((item) => item.id === id);
+  if(offer === undefined) {
+    return (<Redirect to={AppRoute.PAGE_NOT_FOUND}/>);
+  }
   const {
     images,
     description,
