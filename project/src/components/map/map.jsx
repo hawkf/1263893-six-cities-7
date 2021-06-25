@@ -1,4 +1,5 @@
 import React, {useRef, useEffect} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
@@ -26,7 +27,7 @@ export function Map({offers, activeOfferId}) {
     if (map) {
       markers.addTo(map);
 
-      offers.forEach(({ location: { latitude, longitude }, id }) => {
+      offers.forEach(({location: {latitude, longitude}, id}) => {
         leaflet
           .marker(
             {
@@ -58,5 +59,12 @@ Map.propTypes = {
   offers: PropTypes.arrayOf(
     cardProp,
   ),
-  activeOfferId: PropTypes.number.isRequired,
+  activeOfferId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
+
+const mapStateToProps = (state) => ({
+  activeOfferId: state.activeOfferId,
+  offers: state.offers,
+});
+
+export default connect(mapStateToProps, null)(Map);
