@@ -57,7 +57,7 @@ export const offers = [
   },
   {
     id: '3',
-    cityName: 'Cologne',
+    cityName: 'Paris',
     location: {
       latitude: 52.3909553943508,
       longitude: 4.929309666406198,
@@ -85,7 +85,7 @@ export const offers = [
   {
     id: '4',
     isFavorite: false,
-    cityName: 'Cologne',
+    cityName: 'Paris',
     location: {
       latitude: 52.3809553943508,
       longitude: 4.939309666406198,

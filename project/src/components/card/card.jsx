@@ -1,11 +1,13 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {ActionGenerator} from '../../store/action';
 import CardMark from './card-mark';
 import cardProp from './card.prop';
 import {transformRating} from '../../utils/offer';
 
-function Card({offer, onMouseOver}) {
+function Card({offer, onMouseAction}) {
   const history = useHistory();
   const OFFER_PAGE = `/offer/${offer.id}`;
   const {cardImage, price, rating, title, type, isPremium} = offer;
@@ -14,8 +16,17 @@ function Card({offer, onMouseOver}) {
   function onClickHandle() {
     history.push(OFFER_PAGE);
   }
+
+  function onMouseOverHandler() {
+    onMouseAction(offer.id);
+  }
+
+  function onMouseOutHandler() {
+    onMouseAction(null);
+  }
+
   return (
-    <article onMouseOver={onMouseOver} onClick={onClickHandle} className="cities__place-card place-card">
+    <article onMouseOver={onMouseOverHandler} onMouseOut={onMouseOutHandler} onClick={onClickHandle} className="cities__place-card place-card">
       <CardMark isPremium={isPremium}/>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={OFFER_PAGE}>
@@ -52,7 +63,15 @@ function Card({offer, onMouseOver}) {
 
 Card.propTypes = {
   offer: cardProp,
-  onMouseOver: PropTypes.func.isRequired,
+  onMouseAction: PropTypes.func.isRequired,
 };
 
-export default Card;
+const mapDispatchToProps = (dispatch) => ({
+  onMouseAction(offerId) {
+    dispatch(ActionGenerator.changeActiveOfferId(offerId));
+  },
+});
+
+export {Card};
+export default connect(null, mapDispatchToProps)(Card);
+

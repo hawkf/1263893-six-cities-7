@@ -8,3 +8,12 @@ export const AppRoute = {
 
 export const CURRENT_MARKER_URL = 'img/pin-active.svg';
 export const DEFAULT_MARKER_URL = 'img/pin.svg';
+
+export const CITIES = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
