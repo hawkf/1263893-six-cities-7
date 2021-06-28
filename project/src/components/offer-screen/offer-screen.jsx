@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link, useParams, Redirect} from 'react-router-dom';
+import {connect} from 'react-redux';
 import {ReviewsItem} from './reviews-item';
 import PropTypes from 'prop-types';
 import cardProp from '../card/card.prop';
@@ -174,4 +175,10 @@ OfferScreen.propTypes = {
   ),
 };
 
-export default OfferScreen;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+});
+
+export {OfferScreen};
+export default connect(mapStateToProps, null)(OfferScreen);
+

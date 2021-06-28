@@ -9,10 +9,13 @@ import CitiesMenu from '../cities-menu/cities-menu';
 import OffersSortForm from '../offer-sort-form/offers-sort-form';
 import EmptyList from '../empty-list/empty-list';
 import OffersDescription from './offers-description';
+import LoadingScreen from '../loading-screen/loading-screen';
 import PropTypes from 'prop-types';
 import cardProp from '../card/card.prop';
+import {getOffersByCity} from '../../utils/common';
 
-function MainPage({offers}) {
+function MainPage({allOffers, city, isDataLoaded}) {
+  const offers = getOffersByCity(city, allOffers);
   const isOffersEmpty = offers.length === 0;
 
   return (
@@ -45,8 +48,9 @@ function MainPage({offers}) {
         <h1 className="visually-hidden">Cities</h1>
         <CitiesMenu/>
         <div className="cities">
-          {isOffersEmpty && <EmptyList/>}
-          {!isOffersEmpty &&
+          {!isDataLoaded && <LoadingScreen/>}
+          {isOffersEmpty && isDataLoaded && <EmptyList/>}
+          {!isOffersEmpty && isDataLoaded &&
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
@@ -63,11 +67,15 @@ function MainPage({offers}) {
 }
 
 MainPage.propTypes = {
-  offers: PropTypes.arrayOf(cardProp),
+  allOffers: PropTypes.arrayOf(cardProp),
+  city: PropTypes.string.isRequired,
+  isDataLoaded: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
+  allOffers: state.offers,
+  city: state.city,
+  isDataLoaded: state.isDataLoaded,
 });
 
 export {MainPage};

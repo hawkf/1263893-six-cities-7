@@ -10,9 +10,6 @@ import FavoritesScreen from '../favorites-screen/favorites-screen';
 import cardProp from '../card/card.prop';
 
 function App(props) {
-  const {offers} = props;
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
-
   return (
     <BrowserRouter>
       <Switch>
@@ -23,7 +20,7 @@ function App(props) {
           <LoginScreen/>
         </Route>
         <Route exact path={AppRoute.FAVORITES}>
-          <FavoritesScreen favoriteOffers={favoriteOffers}/>
+          <FavoritesScreen/>
         </Route>
         <Route exact path={AppRoute.OFFER}>
           <OfferScreen {...props}/>

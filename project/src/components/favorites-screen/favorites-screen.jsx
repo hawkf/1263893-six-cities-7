@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import cardProp from '../card/card.prop';
 import {FavoriteCard} from '../card/favorite-card';
 import {Logo} from '../logo/logo';
@@ -11,8 +12,8 @@ function getCityFavoriteOffers(cityName, favoriteOffers) {
   return resultFavoriteOffers.map((offer) => <FavoriteCard offer={offer} key={offer.id}/>);
 }
 
-function FavoritesScreen(props) {
-  const {favoriteOffers} = props;
+function FavoritesScreen({offers}) {
+  const favoriteOffers = offers.filter((item) => item.isFavorite);
   const cityNames = Array.from(new Set(favoriteOffers.map((item) => item.cityName)));
 
   return (
@@ -73,9 +74,12 @@ function FavoritesScreen(props) {
 }
 
 FavoritesScreen.propTypes = {
-  favoriteOffers: PropTypes.arrayOf(
-    PropTypes.oneOfType([cardProp]).isRequired,
-  ),
+  offers: PropTypes.arrayOf(cardProp),
 };
 
-export default FavoritesScreen;
+const mapStateToProps = (state) => ({
+  offers: state.offers,
+});
+
+export {FavoritesScreen};
+export default connect(mapStateToProps, null)(FavoritesScreen);

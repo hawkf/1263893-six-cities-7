@@ -2,12 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import carProp from '../card/card.prop';
+import {getOffersByCity} from '../../utils/common';
 
 function OffersDescription({offers, cityName}) {
-  const isSingleOffer = offers.length === 1;
+  const filteredOffers = getOffersByCity(cityName, offers);
+  const isSingleOffer = filteredOffers.length === 1;
 
   return (
-    <b className="places__found">{`${offers.length}${isSingleOffer ? ' place': ' places'}`} to stay in {cityName}</b>);
+    <b className="places__found">{`${filteredOffers.length}${isSingleOffer ? ' place': ' places'}`} to stay in {cityName}</b>);
 }
 
 const mapStateToProps = (state) => ({

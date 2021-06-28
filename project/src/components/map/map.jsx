@@ -6,10 +6,12 @@ import leaflet from 'leaflet';
 import useMap from './useMap';
 import cardProp from '../card/card.prop';
 import {DEFAULT_MARKER_URL, CURRENT_MARKER_URL} from '../../const';
+import {getOffersByCity} from '../../utils/common';
 
-export function Map({offers, activeOfferId}) {
+export function Map({allOffers, activeOfferId, city}) {
+  const offers = getOffersByCity(city, allOffers);
   const mapRef = useRef();
-  const map = useMap(mapRef, offers[0].location);
+  const map = useMap(mapRef, offers[0].cityLocation);
   const defaultIcon = leaflet.icon({
     iconUrl: DEFAULT_MARKER_URL,
     iconSize: [30, 30],
@@ -40,10 +42,15 @@ export function Map({offers, activeOfferId}) {
           )
           .addTo(markers);
       });
+      map.flyTo(
+        [offers[0].cityLocation.latitude, offers[0].cityLocation.longitude],
+        offers[0].cityLocation.zoom,
+      );
     }
 
     return () => {
       markers.clearLayers();
+
     };
   }, [map, offers, activeOfferId]);
 
@@ -56,15 +63,17 @@ export function Map({offers, activeOfferId}) {
 }
 
 Map.propTypes = {
-  offers: PropTypes.arrayOf(
+  allOffers: PropTypes.arrayOf(
     cardProp,
   ),
   activeOfferId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  city: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   activeOfferId: state.activeOfferId,
-  offers: state.offers,
+  allOffers: state.offers,
+  city: state.city,
 });
 
 export default connect(mapStateToProps, null)(Map);
