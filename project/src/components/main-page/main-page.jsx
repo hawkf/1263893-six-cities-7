@@ -11,8 +11,10 @@ import EmptyList from '../empty-list/empty-list';
 import OffersDescription from './offers-description';
 import PropTypes from 'prop-types';
 import cardProp from '../card/card.prop';
+import {getOffersByCity} from '../../utils/common';
 
-function MainPage({offers}) {
+function MainPage({allOffers, city}) {
+  const offers = getOffersByCity(city, allOffers);
   const isOffersEmpty = offers.length === 0;
 
   return (
@@ -63,11 +65,13 @@ function MainPage({offers}) {
 }
 
 MainPage.propTypes = {
-  offers: PropTypes.arrayOf(cardProp),
+  allOffers: PropTypes.arrayOf(cardProp),
+  city: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
+  allOffers: state.offers,
+  city: state.city,
 });
 
 export {MainPage};

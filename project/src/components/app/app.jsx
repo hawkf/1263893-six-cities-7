@@ -1,17 +1,24 @@
 import React from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import MainPage from '../main-page/main-page';
 import LoginScreen from '../login-screen/login-screen';
 import OfferScreen from '../offer-screen/offer-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import LoadingScreen from '../loading-screen/loading-screen';
 import {AppRoute} from '../../const';
 import FavoritesScreen from '../favorites-screen/favorites-screen';
 import cardProp from '../card/card.prop';
 
 function App(props) {
-  const {offers} = props;
-  const favoriteOffers = offers.filter((offer) => offer.isFavorite);
+  const {isDataLoaded} = props;
+
+  if (!isDataLoaded) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>
@@ -23,7 +30,7 @@ function App(props) {
           <LoginScreen/>
         </Route>
         <Route exact path={AppRoute.FAVORITES}>
-          <FavoritesScreen favoriteOffers={favoriteOffers}/>
+          <FavoritesScreen/>
         </Route>
         <Route exact path={AppRoute.OFFER}>
           <OfferScreen {...props}/>
@@ -40,6 +47,12 @@ App.propTypes = {
   offers: PropTypes.arrayOf(
     cardProp,
   ),
+  isDataLoaded: PropTypes.bool.isRequired,
 };
 
-export default App;
+const mapStateToProps = (state) => ({
+  isDataLoaded: state.isDataLoaded,
+});
+
+export {App};
+export default connect(mapStateToProps, null)(App);
