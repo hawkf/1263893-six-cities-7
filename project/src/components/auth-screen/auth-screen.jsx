@@ -1,17 +1,13 @@
-import React, {useRef} from "react";
-import {useHistory} from 'react-router-dom';
+import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {login} from "../../store/api-actions";
-import {AppRoute, AuthorizationStatus} from "../../const";
-import {Logo} from "../logo/logo";
+import {login} from '../../store/api-actions';
+import {Logo} from '../logo/logo';
 
 
-function AuthScreen({onSubmit, authorizationStatus}) {
+function AuthScreen({onSubmit}) {
   const loginRef = useRef();
   const passwordRef = useRef();
-
-  const history = useHistory();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -21,11 +17,6 @@ function AuthScreen({onSubmit, authorizationStatus}) {
       password: passwordRef.current.value,
     });
   };
-
-  if (authorizationStatus === AuthorizationStatus.AUTH) {
-    history.push(AppRoute.ROOT);
-    return ;
-  }
 
   return (
     <div className="page page--gray page--login">
@@ -54,13 +45,11 @@ function AuthScreen({onSubmit, authorizationStatus}) {
             <form onSubmit={handleSubmit} className="login__form form" action="#" method="post">
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
-                <input ref={loginRef} className="login__input form__input" type="email" name="email" placeholder="Email"
-                       required=""/>
+                <input ref={loginRef} className="login__input form__input" type="email" name="email" placeholder="Email" required=""/>
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input ref={passwordRef} className="login__input form__input" type="password" name="password"
-                       placeholder="Password" required=""/>
+                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" required=""/>
               </div>
               <button className="login__submit form__submit button" type="submit">Sign in</button>
             </form>
@@ -75,7 +64,7 @@ function AuthScreen({onSubmit, authorizationStatus}) {
         </div>
       </main>
     </div>
-);
+  );
 }
 
 const mapStateToProps = (state) => ({
@@ -84,8 +73,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit(authData) {
-  dispatch(login(authData));
-},
+    dispatch(login(authData));
+  },
 });
 
 AuthScreen.propTypes = {
@@ -93,4 +82,4 @@ AuthScreen.propTypes = {
 };
 
 export {AuthScreen};
-export default connect(null, mapDispatchToProps)(AuthScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);

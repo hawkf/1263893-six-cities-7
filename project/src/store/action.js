@@ -5,6 +5,8 @@ export const ActionType = {
   LOAD_OFFERS: 'data/loadOffers',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
   LOGOUT: 'user/logout',
+  REDIRECT_TO_ROUTE: 'six-cities/redirectToRoute',
+  SET_USER_EMAIL: 'six-cities/setUserEmail',
 };
 
 export const ActionGenerator = {
@@ -29,5 +31,13 @@ export const ActionGenerator = {
   }),
   logout: () => ({
     type: ActionType.LOGOUT,
+  }),
+  redirectToRoute: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
+    payload: url,
+  }),
+  setUserEmail: (email) => ({
+    type: ActionType.SET_USER_EMAIL,
+    payload: email,
   }),
 };

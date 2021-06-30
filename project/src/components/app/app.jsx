@@ -1,9 +1,8 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {Router as BrowserRouter, Route, Switch} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import MainPage from '../main-page/main-page';
-import LoginScreen from '../login-screen/login-screen';
 import OfferScreen from '../offer-screen/offer-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -11,23 +10,24 @@ import {AppRoute} from '../../const';
 import FavoritesScreen from '../favorites-screen/favorites-screen';
 import cardProp from '../card/card.prop';
 import {isCheckedAuth} from '../../utils/common';
-import AuthScreen from "../auth-screen/auth-screen";
-import PrivateRoute from "../private-route/private-route";
+import AuthScreen from '../auth-screen/auth-screen';
+import PrivateRoute from '../private-route/private-route';
+import browserHistory from '../../browser-history';
 
 function App(props) {
   const {isDataLoaded, authorizationStatus} = props;
 
-   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
-     return (
-       <LoadingScreen />
-     );
-   }
+  if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+    return (
+      <LoadingScreen/>
+    );
+  }
 
   return (
-    <BrowserRouter>
+    <BrowserRouter history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.ROOT}>
-          <MainPage {...props}/>
+          <MainPage/>
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <AuthScreen/>
@@ -35,7 +35,8 @@ function App(props) {
         <PrivateRoute
           exact
           path={AppRoute.FAVORITES}
-          render={() => <FavoritesScreen/>}>
+          render={() => <FavoritesScreen/>}
+        >
         </PrivateRoute>
         <Route exact path={AppRoute.FAVORITES}>
           <FavoritesScreen/>
