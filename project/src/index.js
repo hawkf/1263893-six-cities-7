@@ -9,14 +9,22 @@ import App from './components/app/app';
 import {offers} from './mocks/offers';
 import {comments} from './mocks/comments';
 import {reducer} from './store/reducer';
-import {fetchOfferList} from './store/api-actions';
+import {fetchOfferList, checkAuth} from './store/api-actions';
+import {ActionGenerator} from "./store/action";
+import {AuthorizationStatus} from "./const";
 
-const api = createApi();
+const api = createApi(
+  () => store.dispatch(ActionGenerator.requireAuthorization(AuthorizationStatus.NO_AUTH)),
+);
 
-const store = createStore(reducer, composeWithDevTools(
-  applyMiddleware(thunk.withExtraArgument(api)),
-));
+const store = createStore(
+  reducer,
+  composeWithDevTools(
+    applyMiddleware(thunk.withExtraArgument(api)),
+  ),
+);
 
+store.dispatch(checkAuth());
 store.dispatch(fetchOfferList());
 
 ReactDOM.render(

@@ -9,7 +9,7 @@ const HttpCode = {
 
 const token = localStorage.getItem('token') ?? '';
 
-export const createApi = () => {
+export const createApi = (onUnauthorized) => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
@@ -24,7 +24,7 @@ export const createApi = () => {
     const {response} = err;
 
     if (response.status === HttpCode.UNAUTHORIZED) {
-
+      onUnauthorized();
     }
 
     throw err;

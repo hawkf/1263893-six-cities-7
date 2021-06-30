@@ -10,15 +10,18 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import {AppRoute} from '../../const';
 import FavoritesScreen from '../favorites-screen/favorites-screen';
 import cardProp from '../card/card.prop';
+import {isCheckedAuth} from '../../utils/common';
+import AuthScreen from "../auth-screen/auth-screen";
+import PrivateRoute from "../private-route/private-route";
 
 function App(props) {
-  const {isDataLoaded} = props;
+  const {isDataLoaded, authorizationStatus} = props;
 
-  if (!isDataLoaded) {
-    return (
-      <LoadingScreen />
-    );
-  }
+   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
+     return (
+       <LoadingScreen />
+     );
+   }
 
   return (
     <BrowserRouter>
@@ -27,8 +30,13 @@ function App(props) {
           <MainPage {...props}/>
         </Route>
         <Route exact path={AppRoute.LOGIN}>
-          <LoginScreen/>
+          <AuthScreen/>
         </Route>
+        <PrivateRoute
+          exact
+          path={AppRoute.FAVORITES}
+          render={() => <FavoritesScreen/>}>
+        </PrivateRoute>
         <Route exact path={AppRoute.FAVORITES}>
           <FavoritesScreen/>
         </Route>
@@ -48,10 +56,12 @@ App.propTypes = {
     cardProp,
   ),
   isDataLoaded: PropTypes.bool.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   isDataLoaded: state.isDataLoaded,
+  authorizationStatus: state.authorizationStatus,
 });
 
 export {App};
