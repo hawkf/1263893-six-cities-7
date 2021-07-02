@@ -1,4 +1,5 @@
 import {ActionType} from './action';
+import {AuthorizationStatus} from '../const';
 
 const DEFAULT_CITY = 'Paris';
 
@@ -7,6 +8,8 @@ const initialState = {
   offers: [],
   activeOfferId: null,
   isDataLoaded: false,
+  authorizationStatus: AuthorizationStatus.UNKNOWN,
+  userEmail: null,
 };
 
 function reducer (state = initialState, action) {
@@ -30,6 +33,21 @@ function reducer (state = initialState, action) {
         ...state,
         offers: action.payload,
         isDataLoaded: true,
+      };
+    case ActionType.REQUIRED_AUTHORIZATION:
+      return {
+        ...state,
+        authorizationStatus: action.payload,
+      };
+    case ActionType.LOGOUT:
+      return {
+        ...state,
+        authorizationStatus: AuthorizationStatus.NO_AUTH,
+      };
+    case ActionType.SET_USER_EMAIL:
+      return {
+        ...state,
+        userEmail: action.payload,
       };
     default:
       return state;

@@ -1,8 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
 import CardList from '../card/card-list';
-import {AppRoute} from '../../const';
 import {Logo} from '../logo/logo';
 import Map from '../map/map';
 import CitiesMenu from '../cities-menu/cities-menu';
@@ -12,6 +10,8 @@ import OffersDescription from './offers-description';
 import PropTypes from 'prop-types';
 import cardProp from '../card/card.prop';
 import {getOffersByCity} from '../../utils/common';
+import SignInOut from './sign-in-out';
+import UserName from './user-name';
 
 function MainPage({allOffers, city}) {
   const offers = getOffersByCity(city, allOffers);
@@ -26,16 +26,10 @@ function MainPage({allOffers, city}) {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.FAVORITES}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </Link>
+                  <UserName/>
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
+                  <SignInOut/>
                 </li>
               </ul>
             </nav>

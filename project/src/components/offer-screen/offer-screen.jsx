@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link, useParams, Redirect} from 'react-router-dom';
+import {useParams, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import {ReviewsItem} from './reviews-item';
 import PropTypes from 'prop-types';
@@ -11,6 +11,8 @@ import {Logo} from '../logo/logo';
 import {NearPlaceCard} from '../card/near-place-card';
 import {CommentForm} from '../comment-form/comment-form';
 import {AppRoute} from '../../const';
+import UserName from '../main-page/user-name';
+import SignInOut from '../main-page/sign-in-out';
 
 function OfferScreen({offers, comments}) {
   const {id} = useParams();
@@ -44,16 +46,10 @@ function OfferScreen({offers, comments}) {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.FAVORITES}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                  </Link>
+                  <UserName />
                 </li>
                 <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
+                  <SignInOut />
                 </li>
               </ul>
             </nav>

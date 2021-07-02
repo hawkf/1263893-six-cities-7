@@ -3,6 +3,10 @@ export const ActionType = {
   SET_DEFAULT_CITY_FILTER: 'six-cities/setDefaultCityFilter',
   CHANGE_ACTIVE_OFFER_ID: 'six-cities/changeActiveOfferId',
   LOAD_OFFERS: 'data/loadOffers',
+  REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
+  LOGOUT: 'user/logout',
+  REDIRECT_TO_ROUTE: 'six-cities/redirectToRoute',
+  SET_USER_EMAIL: 'six-cities/setUserEmail',
 };
 
 export const ActionGenerator = {
@@ -20,5 +24,20 @@ export const ActionGenerator = {
   loadOffers: (offers) => ({
     type:ActionType.LOAD_OFFERS,
     payload: offers,
+  }),
+  requireAuthorization: (status) => ({
+    type: ActionType.REQUIRED_AUTHORIZATION,
+    payload: status,
+  }),
+  logout: () => ({
+    type: ActionType.LOGOUT,
+  }),
+  redirectToRoute: (url) => ({
+    type: ActionType.REDIRECT_TO_ROUTE,
+    payload: url,
+  }),
+  setUserEmail: (email) => ({
+    type: ActionType.SET_USER_EMAIL,
+    payload: email,
   }),
 };
