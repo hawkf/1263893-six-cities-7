@@ -1,11 +1,24 @@
 import {ActionGenerator} from './action';
 import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
 import {updateOfferToClient} from '../utils/offer';
+import {updateCommentToClient} from '../utils/comment';
 
+const OFFER_PAGE = '/offer/';
 
 export const fetchOfferList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.OFFERS)
     .then(({data}) => dispatch(ActionGenerator.loadOffers(data.map((item) => updateOfferToClient(item)))))
+);
+
+export const fetchOffer = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.OFFERS}/${id}`)
+    .then(({data}) => dispatch(ActionGenerator.setOpenedOffer(updateOfferToClient(data))))
+    .catch(() => dispatch(ActionGenerator.redirectToRoute(AppRoute.PAGE_NOT_FOUND)))
+);
+
+export const fetchComments = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.COMMENTS}${id}`)
+    .then(({data}) => dispatch(ActionGenerator.loadComments(data.map((item) => updateCommentToClient(item)))))
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (
@@ -13,6 +26,13 @@ export const checkAuth = () => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(ActionGenerator.setUserEmail(data.email)))
     .then(() => dispatch(ActionGenerator.requireAuthorization(AuthorizationStatus.AUTH)))
     .catch(() => {})
+);
+
+export const postComment = (comment, offerId) => (dispatch, _getState, api) => (
+  api.post(`${APIRoute.COMMENTS}${offerId}`, comment)
+    .then(() => dispatch(ActionGenerator.sendComment(false)))
+    .then(() => fetchComments(offerId))
+    .catch(() => dispatch(ActionGenerator.sendComment(false)))
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (

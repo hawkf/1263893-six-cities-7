@@ -7,6 +7,9 @@ export const ActionType = {
   LOGOUT: 'user/logout',
   REDIRECT_TO_ROUTE: 'six-cities/redirectToRoute',
   SET_USER_EMAIL: 'six-cities/setUserEmail',
+  SET_OPENED_OFFER: 'data/setOpenedOffer',
+  LOAD_COMMENTS: 'data/loadComments',
+  SEND_COMMENT: 'data/sendComment',
 };
 
 export const ActionGenerator = {
@@ -39,5 +42,17 @@ export const ActionGenerator = {
   setUserEmail: (email) => ({
     type: ActionType.SET_USER_EMAIL,
     payload: email,
+  }),
+  setOpenedOffer: (offer) => ({
+    type: ActionType.SET_OPENED_OFFER,
+    payload: offer,
+  }),
+  loadComments: (comments) => ({
+    type: ActionType.LOAD_COMMENTS,
+    payload: comments,
+  }),
+  sendComment: (status) => ({
+    type: ActionType.SEND_COMMENT,
+    payload: status,
   }),
 };

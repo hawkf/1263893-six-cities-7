@@ -11,7 +11,7 @@ export function sortByDate(commentA, commentB) {
 }
 
 export function humanizeCommentDate(date) {
-  return `${dayjs(date).format('MMMM YYYY')}%`;
+  return `${dayjs(date).format('MMMM YYYY')}`;
 }
 
 export const updateOfferToClient = (offer) => {
