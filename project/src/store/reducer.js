@@ -6,6 +6,7 @@ const DEFAULT_CITY = 'Paris';
 const initialState = {
   city: DEFAULT_CITY,
   offers: [],
+  offersNearby: null,
   openedOffer: null,
   comments: null,
   activeOfferId: null,
@@ -46,7 +47,7 @@ function reducer (state = initialState, action) {
       return {
         ...state,
         comments: action.payload,
-      }
+      };
     case ActionType.REQUIRED_AUTHORIZATION:
       return {
         ...state,
@@ -66,7 +67,12 @@ function reducer (state = initialState, action) {
       return {
         ...state,
         isCommentFormSending: action.payload,
-      }
+      };
+    case ActionType.LOAD_OFFERS_NEARBY:
+      return {
+        ...state,
+        offersNearby: action.payload,
+      };
     default:
       return state;
   }

@@ -10,6 +10,7 @@ export const ActionType = {
   SET_OPENED_OFFER: 'data/setOpenedOffer',
   LOAD_COMMENTS: 'data/loadComments',
   SEND_COMMENT: 'data/sendComment',
+  LOAD_OFFERS_NEARBY: 'data/loadOffersNearBy',
 };
 
 export const ActionGenerator = {
@@ -54,5 +55,9 @@ export const ActionGenerator = {
   sendComment: (status) => ({
     type: ActionType.SEND_COMMENT,
     payload: status,
+  }),
+  loadOffersNearBy: (offersNearBy) => ({
+    type: ActionType.LOAD_OFFERS_NEARBY,
+    payload: offersNearBy,
   }),
 };

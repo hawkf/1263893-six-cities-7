@@ -3,11 +3,14 @@ import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
 import {updateOfferToClient} from '../utils/offer';
 import {updateCommentToClient} from '../utils/comment';
 
-const OFFER_PAGE = '/offer/';
-
 export const fetchOfferList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.OFFERS)
     .then(({data}) => dispatch(ActionGenerator.loadOffers(data.map((item) => updateOfferToClient(item)))))
+);
+
+export const fetchOffersNearBy = (id) => (dispatch, _getState, api) => (
+  api.get(`${APIRoute.OFFERS}/${id}/nearby`)
+    .then(({data}) => dispatch(ActionGenerator.loadOffersNearBy(data.map((item) => updateOfferToClient(item)))))
 );
 
 export const fetchOffer = (id) => (dispatch, _getState, api) => (
@@ -28,11 +31,14 @@ export const checkAuth = () => (dispatch, _getState, api) => (
     .catch(() => {})
 );
 
-export const postComment = (comment, offerId) => (dispatch, _getState, api) => (
+export const postComment = (comment, offerId, onFailSendComment) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.COMMENTS}${offerId}`, comment)
     .then(() => dispatch(ActionGenerator.sendComment(false)))
     .then(() => fetchComments(offerId))
-    .catch(() => dispatch(ActionGenerator.sendComment(false)))
+    .catch(() => {
+      onFailSendComment();
+      dispatch(ActionGenerator.sendComment(false));
+    })
 );
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (

@@ -14,7 +14,7 @@ function Card({offer, onMouseAction, onClickAction}) {
   const {cardImage, price, rating, title, type, isPremium} = offer;
   const ratingWidth = transformRating(rating);
 
-   function onMouseOverHandler() {
+  function onMouseOverHandler() {
     onMouseAction(offer.id);
   }
 
@@ -23,7 +23,7 @@ function Card({offer, onMouseAction, onClickAction}) {
   }
 
   function onClickHandle() {
-     history.push(OFFER_PAGE);
+    history.push(OFFER_PAGE);
   }
 
   return (
@@ -65,6 +65,7 @@ function Card({offer, onMouseAction, onClickAction}) {
 Card.propTypes = {
   offer: cardProp,
   onMouseAction: PropTypes.func.isRequired,
+  onClickAction: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -73,7 +74,7 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onClickAction(offerId) {
     dispatch(fetchOffer(offerId));
-  }
+  },
 });
 
 export {Card};

@@ -8,9 +8,9 @@ export const updateCommentToClient = (comment) => {
         id: comment.user.id,
         isPro: comment.user['is_pro'],
         name: comment.user.name,
-      }
-    }
+      },
+    },
   );
 
   return updatedComment;
-}
+};
