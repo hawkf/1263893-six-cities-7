@@ -1,24 +1,46 @@
-import React from 'react';
-import {useParams, Redirect} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {useParams} from 'react-router-dom';
 import {connect} from 'react-redux';
-import {ReviewsItem} from './reviews-item';
 import PropTypes from 'prop-types';
 import cardProp from '../card/card.prop';
 import offerScreenProp from './offer-screen.prop';
-import {transformRating, sortByDate} from '../../utils/offer';
+import {transformRating} from '../../utils/offer';
 import {nanoid} from 'nanoid';
 import {Logo} from '../logo/logo';
-import {NearPlaceCard} from '../card/near-place-card';
-import {CommentForm} from '../comment-form/comment-form';
-import {AppRoute} from '../../const';
+import CommentForm from '../comment-form/comment-form';
 import UserName from '../main-page/user-name';
 import SignInOut from '../main-page/sign-in-out';
+import {fetchOffer, fetchComments} from '../../store/api-actions';
+import LoadingScreen from '../loading-screen/loading-screen';
+import {ActionGenerator} from '../../store/action';
+import CommentsList from '../comments-list.jsx/comments-list';
+import {AuthorizationStatus} from '../../const';
+import NearbyOffersList from '../nearby-offers-list/nearby-offers-list';
 
-function OfferScreen({offers, comments}) {
+function OfferScreen({comments,
+  openedOffer,
+  getOffer,
+  loadComments,
+  resetOpenedOffer,
+  resetComments,
+  authorizationStatus}) {
+
   const {id} = useParams();
-  const offer = offers.find((item) => item.id === id);
-  if(offer === undefined) {
-    return (<Redirect to={AppRoute.PAGE_NOT_FOUND}/>);
+
+  useEffect(() => {
+    getOffer(id);
+    loadComments(id);
+
+    return () => {
+      resetOpenedOffer();
+      resetComments();
+    };
+  }, [id]);
+
+  if (openedOffer === null || comments === null) {
+    return (
+      <LoadingScreen/>
+    );
   }
   const {
     images,
@@ -32,10 +54,11 @@ function OfferScreen({offers, comments}) {
     title,
     type,
     isPremium,
-  } = offer;
+  } = openedOffer;
+
   const ratingWidth = transformRating(rating);
   const {avatarUrl, isPro, name} = host;
-  const resultComments = comments.sort(sortByDate);
+  const isAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
 
   return (
     <div className="page">
@@ -46,10 +69,10 @@ function OfferScreen({offers, comments}) {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <UserName />
+                  <UserName/>
                 </li>
                 <li className="header__nav-item">
-                  <SignInOut />
+                  <SignInOut/>
                 </li>
               </ul>
             </nav>
@@ -135,28 +158,14 @@ function OfferScreen({offers, comments}) {
                 </div>
               </div>
               <section className="property__reviews reviews">
-                <h2 className="reviews__title">
-                  Reviews &middot;
-                  <span className="reviews__amount">{comments.length}</span>
-                </h2>
-                <ul className="reviews__list">
-                  {resultComments.map((comment) => (
-                    <ReviewsItem commentItem={comment} key={comment.id}/>))}
-                </ul>
-                <CommentForm/>
+                <CommentsList/>
+                {isAuthorized && <CommentForm offerId={id}/>}
               </section>
             </div>
           </div>
           <section className="property__map map"></section>
         </section>
-        <div className="container">
-          <section className="near-places places">
-            <h2 className="near-places__title">Other places in the neighbourhood</h2>
-            <div className="near-places__list places__list">
-              <NearPlaceCard offer={offers[0]}/>
-            </div>
-          </section>
-        </div>
+        <NearbyOffersList/>
       </main>
     </div>
   );
@@ -164,17 +173,38 @@ function OfferScreen({offers, comments}) {
 
 OfferScreen.propTypes = {
   comments: PropTypes.arrayOf(
-    PropTypes.oneOfType([offerScreenProp]),
+    PropTypes.oneOfType([offerScreenProp, PropTypes.number]),
   ),
-  offers: PropTypes.arrayOf(
-    cardProp,
-  ),
+  openedOffer: cardProp,
+  getOffer: PropTypes.func.isRequired,
+  loadComments: PropTypes.func.isRequired,
+  resetOpenedOffer: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  resetComments: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
+  openedOffer: state.openedOffer,
+  comments: state.comments,
+  authorizationStatus: state.authorizationStatus,
+
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  getOffer(id) {
+    dispatch(fetchOffer(id));
+  },
+  loadComments(id) {
+    dispatch(fetchComments(id));
+  },
+  resetOpenedOffer() {
+    dispatch(ActionGenerator.setOpenedOffer(null));
+  },
+  resetComments() {
+    dispatch(ActionGenerator.loadComments(null));
+  },
 });
 
 export {OfferScreen};
-export default connect(mapStateToProps, null)(OfferScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(OfferScreen);
 

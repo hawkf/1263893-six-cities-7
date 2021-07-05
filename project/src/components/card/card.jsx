@@ -6,16 +6,13 @@ import {ActionGenerator} from '../../store/action';
 import CardMark from './card-mark';
 import cardProp from './card.prop';
 import {transformRating} from '../../utils/offer';
+import {fetchOffer} from '../../store/api-actions';
 
-function Card({offer, onMouseAction}) {
+function Card({offer, onMouseAction, onClickAction}) {
   const history = useHistory();
   const OFFER_PAGE = `/offer/${offer.id}`;
   const {cardImage, price, rating, title, type, isPremium} = offer;
   const ratingWidth = transformRating(rating);
-
-  function onClickHandle() {
-    history.push(OFFER_PAGE);
-  }
 
   function onMouseOverHandler() {
     onMouseAction(offer.id);
@@ -23,6 +20,10 @@ function Card({offer, onMouseAction}) {
 
   function onMouseOutHandler() {
     onMouseAction(null);
+  }
+
+  function onClickHandle() {
+    history.push(OFFER_PAGE);
   }
 
   return (
@@ -64,11 +65,15 @@ function Card({offer, onMouseAction}) {
 Card.propTypes = {
   offer: cardProp,
   onMouseAction: PropTypes.func.isRequired,
+  onClickAction: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onMouseAction(offerId) {
     dispatch(ActionGenerator.changeActiveOfferId(offerId));
+  },
+  onClickAction(offerId) {
+    dispatch(fetchOffer(offerId));
   },
 });
 

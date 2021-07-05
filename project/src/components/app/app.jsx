@@ -8,7 +8,6 @@ import NotFoundScreen from '../not-found-screen/not-found-screen';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {AppRoute} from '../../const';
 import FavoritesScreen from '../favorites-screen/favorites-screen';
-import cardProp from '../card/card.prop';
 import {isCheckedAuth} from '../../utils/common';
 import AuthScreen from '../auth-screen/auth-screen';
 import PrivateRoute from '../private-route/private-route';
@@ -53,9 +52,6 @@ function App(props) {
 }
 
 App.propTypes = {
-  offers: PropTypes.arrayOf(
-    cardProp,
-  ),
   isDataLoaded: PropTypes.bool.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
 };

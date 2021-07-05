@@ -1,63 +1,86 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {postComment} from '../../store/api-actions';
+import {ActionGenerator} from '../../store/action';
+import RatingInput from './rating-input';
 
-export function CommentForm() {
-  const [, setRating] = useState('1');
+function CommentForm({sendFormData, offerId, isCommentFormSending}) {
+  const [rating, setRating] = useState(null);
   const [text, setText] = useState('');
 
-  function onRatingChangeHandle(evt) {
-    setRating(evt.target.value);
+  const MIN_TEXT_LENGTH = 50;
+  const MAX_TEXT_LENGTH = 300;
+  const RATING_VALUES = [1, 2, 3, 4, 5];
+  const ON_FAIL_MESSAGE = 'Произошла ошибка во время отправки коментария';
+
+  useEffect(() => {
+    if (isCommentFormSending === false) {
+      setRating(null);
+      setText('');
+    }
+  }, [isCommentFormSending]);
+
+
+  function onRatingChangeHandle(value) {
+    setRating(value);
   }
 
   function handleTextChange(evt) {
     setText(evt.target.value);
   }
 
+  function onFail() {
+    throw new Error(ON_FAIL_MESSAGE);
+  }
+
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    sendFormData({comment: text, rating: rating}, offerId, () => onFail());
+  }
+
+  const isFormReadyToSend = !isCommentFormSending &&
+    rating !== null &&
+    text.length >= MIN_TEXT_LENGTH &&
+    text.length <= MAX_TEXT_LENGTH;
+
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form onSubmit={handleSubmit} className="reviews__form form" action="#" method="post">
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
-        <input onChange={onRatingChangeHandle} className="form__rating-input visually-hidden" name="rating" value="5" id="5-stars" type="radio"/>
-        <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input onChange={onRatingChangeHandle} className="form__rating-input visually-hidden" name="rating" value="4" id="4-stars" type="radio"/>
-        <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input onChange={onRatingChangeHandle} className="form__rating-input visually-hidden" name="rating" value="3" id="3-stars" type="radio"/>
-        <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input onChange={onRatingChangeHandle} className="form__rating-input visually-hidden" name="rating" value="2" id="2-stars" type="radio"/>
-        <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
-
-        <input onChange={onRatingChangeHandle} className="form__rating-input visually-hidden" name="rating" value="1" id="1-star" type="radio"/>
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
-          <svg className="form__star-image" width="37" height="33">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-        </label>
+        {RATING_VALUES.map((item) =>
+          <RatingInput isCommentFormSending={isCommentFormSending} value={item} onRatingChangeHandle={onRatingChangeHandle} key={item}/>)}
       </div>
-      <textarea value={text} onChange={handleTextChange} className="reviews__textarea form__textarea" id="review"  name="review" placeholder="Tell how was your stay, what you like and what can be improved"></textarea>
+      <textarea value={text} onChange={handleTextChange} disabled={isCommentFormSending ? true : ''} className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved">
+      </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and
           describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled="">Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={!isFormReadyToSend}>Submit
+        </button>
       </div>
     </form>);
 }
+
+const mapStateToProps = (state) => ({
+  isCommentFormSending: state.isCommentFormSending,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  sendFormData(comment, offerId, onFail) {
+    dispatch(ActionGenerator.sendComment(true));
+    dispatch(postComment(comment, offerId, onFail));
+  },
+});
+
+CommentForm.propTypes = {
+  isCommentFormSending: PropTypes.bool.isRequired,
+  sendFormData: PropTypes.func.isRequired,
+  offerId: PropTypes.string.isRequired,
+};
+
+export {CommentForm};
+export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);

@@ -6,10 +6,14 @@ const DEFAULT_CITY = 'Paris';
 const initialState = {
   city: DEFAULT_CITY,
   offers: [],
+  offersNearby: null,
+  openedOffer: null,
+  comments: null,
   activeOfferId: null,
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.UNKNOWN,
   userEmail: null,
+  isCommentFormSending: false,
 };
 
 function reducer (state = initialState, action) {
@@ -34,6 +38,16 @@ function reducer (state = initialState, action) {
         offers: action.payload,
         isDataLoaded: true,
       };
+    case ActionType.SET_OPENED_OFFER:
+      return {
+        ...state,
+        openedOffer: action.payload,
+      };
+    case ActionType.LOAD_COMMENTS:
+      return {
+        ...state,
+        comments: action.payload,
+      };
     case ActionType.REQUIRED_AUTHORIZATION:
       return {
         ...state,
@@ -48,6 +62,16 @@ function reducer (state = initialState, action) {
       return {
         ...state,
         userEmail: action.payload,
+      };
+    case ActionType.SEND_COMMENT:
+      return {
+        ...state,
+        isCommentFormSending: action.payload,
+      };
+    case ActionType.LOAD_OFFERS_NEARBY:
+      return {
+        ...state,
+        offersNearby: action.payload,
       };
     default:
       return state;
