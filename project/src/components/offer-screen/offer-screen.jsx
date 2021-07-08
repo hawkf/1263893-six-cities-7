@@ -12,10 +12,13 @@ import UserName from '../main-page/user-name';
 import SignInOut from '../main-page/sign-in-out';
 import {fetchOffer, fetchComments} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {ActionGenerator} from '../../store/action';
+import {ActionGenerator, loadComments, setOpenedOffer} from '../../store/action';
 import CommentsList from '../comments-list.jsx/comments-list';
 import {AuthorizationStatus} from '../../const';
 import NearbyOffersList from '../nearby-offers-list/nearby-offers-list';
+import {getOpenedOffer} from '../../store/offers-data/selectors';
+import {getComments} from '../../store/form-process/selectors';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 function OfferScreen({comments,
   openedOffer,
@@ -184,9 +187,9 @@ OfferScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  openedOffer: state.openedOffer,
-  comments: state.comments,
-  authorizationStatus: state.authorizationStatus,
+  openedOffer: getOpenedOffer(state),
+  comments: getComments(state),
+  authorizationStatus: getAuthorizationStatus(state),
 
 });
 
@@ -198,10 +201,10 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(fetchComments(id));
   },
   resetOpenedOffer() {
-    dispatch(ActionGenerator.setOpenedOffer(null));
+    dispatch(setOpenedOffer(null));
   },
   resetComments() {
-    dispatch(ActionGenerator.loadComments(null));
+    dispatch(loadComments(null));
   },
 });
 

@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {NearPlaceCard} from '../card/near-place-card';
 import {fetchOffersNearBy} from '../../store/api-actions';
 import CardProp from '../card/card.prop';
+import {getOffersNearBy, getOpenedOffer} from '../../store/offers-data/selectors';
 
 function NearbyOffersList({offersNearby, openedOffer, loadOffersNearBy}) {
   useEffect(() => {
@@ -27,8 +28,8 @@ function NearbyOffersList({offersNearby, openedOffer, loadOffersNearBy}) {
 }
 
 const mapStateToProps = (state) => ({
-  offersNearby: state.offersNearby,
-  openedOffer: state.openedOffer,
+  offersNearby: getOffersNearBy(state),
+  openedOffer: getOpenedOffer(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

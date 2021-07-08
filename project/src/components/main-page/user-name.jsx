@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
+import {getUserEmail} from '../../store/user/selectors';
 
 function UserName({userEmail}) {
   if (userEmail === null) {
@@ -19,7 +20,7 @@ function UserName({userEmail}) {
 }
 
 const mapStateToProps = (state) => ({
-  userEmail: state.userEmail,
+  userEmail: getUserEmail(state),
 });
 
 UserName.propTypes = {

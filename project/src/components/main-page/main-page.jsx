@@ -12,6 +12,7 @@ import cardProp from '../card/card.prop';
 import {getOffersByCity} from '../../utils/common';
 import SignInOut from './sign-in-out';
 import UserName from './user-name';
+import {getCity, getOffers} from '../../store/offers-data/selectors';
 
 function MainPage({allOffers, city}) {
   const offers = getOffersByCity(city, allOffers);
@@ -64,8 +65,8 @@ MainPage.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  allOffers: state.offers,
-  city: state.city,
+  allOffers: getOffers(state),
+  city: getCity(state),
 });
 
 export {MainPage};

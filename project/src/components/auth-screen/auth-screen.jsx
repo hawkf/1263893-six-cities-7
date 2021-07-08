@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {login} from '../../store/api-actions';
 import {Logo} from '../logo/logo';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 
 function AuthScreen({onSubmit}) {
@@ -68,7 +69,7 @@ function AuthScreen({onSubmit}) {
 }
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

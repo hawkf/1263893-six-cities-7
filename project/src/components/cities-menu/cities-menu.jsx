@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {ActionGenerator} from '../../store/action';
+import {ActionGenerator, changeCity} from '../../store/action';
 import {CITIES} from '../../const';
+import {getCity} from '../../store/offers-data/selectors';
 
 function CitiesMenu({cityActive, changeActiveCity}) {
 
@@ -28,12 +29,12 @@ CitiesMenu.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  cityActive: state.city,
+  cityActive: getCity(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   changeActiveCity(cityName) {
-    dispatch(ActionGenerator.changeCity(cityName));
+    dispatch(changeCity(cityName));
   },
 });
 
