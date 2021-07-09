@@ -1,18 +1,23 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {ActionGenerator, changeActiveOfferId} from '../../store/action';
+import {useDispatch} from 'react-redux';
+import {changeActiveOfferId} from '../../store/action';
 import CardMark from './card-mark';
 import cardProp from './card.prop';
 import {transformRating} from '../../utils/offer';
-import {fetchOffer} from '../../store/api-actions';
 
-function Card({offer, onMouseAction, onClickAction}) {
+function Card({offer}) {
   const history = useHistory();
   const OFFER_PAGE = `/offer/${offer.id}`;
   const {cardImage, price, rating, title, type, isPremium} = offer;
   const ratingWidth = transformRating(rating);
+
+  const dispatch = useDispatch();
+
+  const onMouseAction = (offerId) => {
+    dispatch(changeActiveOfferId(offerId));
+  };
+
 
   function onMouseOverHandler() {
     onMouseAction(offer.id);
@@ -64,19 +69,6 @@ function Card({offer, onMouseAction, onClickAction}) {
 
 Card.propTypes = {
   offer: cardProp,
-  onMouseAction: PropTypes.func.isRequired,
-  onClickAction: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onMouseAction(offerId) {
-    dispatch(changeActiveOfferId(offerId));
-  },
-  onClickAction(offerId) {
-    dispatch(fetchOffer(offerId));
-  },
-});
-
-export {Card};
-export default connect(null, mapDispatchToProps)(Card);
-
+export default Card;

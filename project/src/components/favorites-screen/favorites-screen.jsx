@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import cardProp from '../card/card.prop';
+import {useSelector} from 'react-redux';
 import {Logo} from '../logo/logo';
 import UserName from '../main-page/user-name';
 import EmptyFavoriteList from './empty-favorite-list';
@@ -9,7 +7,8 @@ import FavoritesList from './favorites-list';
 import SignInOut from '../main-page/sign-in-out';
 import {getOffers} from '../../store/offers-data/selectors';
 
-function FavoritesScreen({offers}) {
+function FavoritesScreen() {
+  const offers = useSelector(getOffers);
   const favoriteOffers = offers.filter((item) => item.isFavorite);
   const isEmptyFavoriteOffers = favoriteOffers.length === 0;
 
@@ -49,13 +48,4 @@ function FavoritesScreen({offers}) {
   );
 }
 
-FavoritesScreen.propTypes = {
-  offers: PropTypes.arrayOf(cardProp),
-};
-
-const mapStateToProps = (state) => ({
-  offers: getOffers(state),
-});
-
-export {FavoritesScreen};
-export default connect(mapStateToProps, null)(FavoritesScreen);
+export default FavoritesScreen;

@@ -1,12 +1,19 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {NearPlaceCard} from '../card/near-place-card';
 import {fetchOffersNearBy} from '../../store/api-actions';
-import CardProp from '../card/card.prop';
 import {getOffersNearBy, getOpenedOffer} from '../../store/offers-data/selectors';
 
-function NearbyOffersList({offersNearby, openedOffer, loadOffersNearBy}) {
+function NearbyOffersList() {
+  const offersNearby = useSelector(getOffersNearBy);
+  const openedOffer = useSelector(getOpenedOffer);
+
+  const dispatch = useDispatch();
+
+  const loadOffersNearBy = (id) => {
+    dispatch(fetchOffersNearBy(id));
+  };
+
   useEffect(() => {
     loadOffersNearBy(openedOffer.id);
 
@@ -27,22 +34,4 @@ function NearbyOffersList({offersNearby, openedOffer, loadOffersNearBy}) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  offersNearby: getOffersNearBy(state),
-  openedOffer: getOpenedOffer(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  loadOffersNearBy(id) {
-    dispatch(fetchOffersNearBy(id));
-  },
-});
-
-NearbyOffersList.propTypes = {
-  offersNearby: PropTypes.arrayOf(CardProp),
-  openedOffer: CardProp,
-  loadOffersNearBy: PropTypes.func.isRequired,
-};
-
-export {NearbyOffersList};
-export default connect(mapStateToProps, mapDispatchToProps)(NearbyOffersList);
+export default NearbyOffersList;

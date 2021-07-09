@@ -1,5 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import CardList from '../card/card-list';
 import {Logo} from '../logo/logo';
 import Map from '../map/map';
@@ -7,14 +7,15 @@ import CitiesMenu from '../cities-menu/cities-menu';
 import OffersSortForm from '../offer-sort-form/offers-sort-form';
 import EmptyList from '../empty-list/empty-list';
 import OffersDescription from './offers-description';
-import PropTypes from 'prop-types';
-import cardProp from '../card/card.prop';
 import {getOffersByCity} from '../../utils/common';
 import SignInOut from './sign-in-out';
 import UserName from './user-name';
 import {getCity, getOffers} from '../../store/offers-data/selectors';
 
-function MainPage({allOffers, city}) {
+function MainPage() {
+  const allOffers = useSelector(getOffers);
+  const city = useSelector(getCity);
+
   const offers = getOffersByCity(city, allOffers);
   const isOffersEmpty = offers.length === 0;
 
@@ -59,15 +60,4 @@ function MainPage({allOffers, city}) {
   );
 }
 
-MainPage.propTypes = {
-  allOffers: PropTypes.arrayOf(cardProp),
-  city: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  allOffers: getOffers(state),
-  city: getCity(state),
-});
-
-export {MainPage};
-export default connect(mapStateToProps, null)(MainPage);
+export default MainPage;

@@ -3,7 +3,7 @@ import cardProp from './card.prop';
 import {transformRating} from '../../utils/offer';
 import {Link, useHistory} from 'react-router-dom';
 
-export function FavoriteCard({offer}) {
+function FavoriteCard({offer}) {
   const history = useHistory();
   const {cardImage, price, rating, title, type} = offer;
   const OFFER_PAGE = `/offer/${offer.id}`;
@@ -50,3 +50,5 @@ export function FavoriteCard({offer}) {
 FavoriteCard.propTypes = {
   offer: cardProp,
 };
+
+export {FavoriteCard};

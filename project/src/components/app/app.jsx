@@ -1,7 +1,6 @@
 import React from 'react';
 import {Router as BrowserRouter, Route, Switch} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 import MainPage from '../main-page/main-page';
 import OfferScreen from '../offer-screen/offer-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
@@ -16,7 +15,10 @@ import {getIsDataLoaded} from '../../store/offers-data/selectors';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 
 function App(props) {
-  const {isDataLoaded, authorizationStatus} = props;
+
+  const isDataLoaded = useSelector(getIsDataLoaded);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+
 
   if (isCheckedAuth(authorizationStatus) || !isDataLoaded) {
     return (
@@ -53,15 +55,4 @@ function App(props) {
   );
 }
 
-App.propTypes = {
-  isDataLoaded: PropTypes.bool.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  isDataLoaded: getIsDataLoaded(state),
-  authorizationStatus: getAuthorizationStatus(state),
-});
-
-export {App};
-export default connect(mapStateToProps, null)(App);
+export default App;

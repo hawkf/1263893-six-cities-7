@@ -1,16 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {logout} from '../../store/api-actions';
 import {Link, useHistory} from 'react-router-dom';
 import {AuthorizationStatus} from '../../const';
 import {AppRoute} from '../../const';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 
-function SignInOut({authorizationStatus, onSignOut}) {
+function SignInOut() {
   const history = useHistory();
   const onSignInHandle = () => {
     history.push(AppRoute.LOGIN);
+  };
+
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+
+  const dispatch = useDispatch();
+
+  const onSignOut = () => {
+    dispatch(logout());
   };
 
   if (authorizationStatus  === AuthorizationStatus.NO_AUTH) {
@@ -25,20 +32,4 @@ function SignInOut({authorizationStatus, onSignOut}) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  authorizationStatus: getAuthorizationStatus(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onSignOut() {
-    dispatch(logout());
-  },
-});
-
-SignInOut.propTypes = {
-  onSignOut: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-export {SignInOut};
-export default connect(mapStateToProps, mapDispatchToProps)(SignInOut);
+export default SignInOut;

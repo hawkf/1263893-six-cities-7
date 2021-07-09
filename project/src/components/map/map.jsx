@@ -1,15 +1,17 @@
 import React, {useRef, useEffect} from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
 import useMap from './useMap';
-import cardProp from '../card/card.prop';
 import {DEFAULT_MARKER_URL, CURRENT_MARKER_URL} from '../../const';
 import {getOffersByCity} from '../../utils/common';
 import {getActiveOfferId, getCity, getOffers} from '../../store/offers-data/selectors';
 
-export function Map({allOffers, activeOfferId, city}) {
+export function Map() {
+  const activeOfferId = useSelector(getActiveOfferId);
+  const allOffers = useSelector(getOffers);
+  const city = useSelector(getCity);
+
   const offers = getOffersByCity(city, allOffers);
   const mapRef = useRef();
   const map = useMap(mapRef, offers[0].cityLocation);
@@ -63,18 +65,4 @@ export function Map({allOffers, activeOfferId, city}) {
     </div>);
 }
 
-Map.propTypes = {
-  allOffers: PropTypes.arrayOf(
-    cardProp,
-  ),
-  activeOfferId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  city: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  activeOfferId: getActiveOfferId(state),
-  allOffers: getOffers(state),
-  city: getCity(state),
-});
-
-export default connect(mapStateToProps, null)(Map);
+export default Map;

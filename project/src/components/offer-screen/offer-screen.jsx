@@ -1,9 +1,6 @@
 import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import cardProp from '../card/card.prop';
-import offerScreenProp from './offer-screen.prop';
+import {useDispatch, useSelector} from 'react-redux';
 import {transformRating} from '../../utils/offer';
 import {nanoid} from 'nanoid';
 import {Logo} from '../logo/logo';
@@ -12,23 +9,40 @@ import UserName from '../main-page/user-name';
 import SignInOut from '../main-page/sign-in-out';
 import {fetchOffer, fetchComments} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {ActionGenerator, loadComments, setOpenedOffer} from '../../store/action';
+import {setOpenedOffer} from '../../store/action';
 import CommentsList from '../comments-list.jsx/comments-list';
 import {AuthorizationStatus} from '../../const';
 import NearbyOffersList from '../nearby-offers-list/nearby-offers-list';
 import {getOpenedOffer} from '../../store/offers-data/selectors';
 import {getComments} from '../../store/form-process/selectors';
 import {getAuthorizationStatus} from '../../store/user/selectors';
+import {loadComments as loadComentsToState} from '../../store/action';
 
-function OfferScreen({comments,
-  openedOffer,
-  getOffer,
-  loadComments,
-  resetOpenedOffer,
-  resetComments,
-  authorizationStatus}) {
+function OfferScreen() {
 
   const {id} = useParams();
+
+  const openedOffer = useSelector(getOpenedOffer);
+  const comments = useSelector(getComments);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+
+  const dispatch = useDispatch();
+
+  const getOffer = (offerId) => {
+    dispatch(fetchOffer(offerId));
+  };
+
+  const loadComments = (offerId) => {
+    dispatch(fetchComments(offerId));
+  };
+
+  const resetOpenedOffer = () => {
+    dispatch(setOpenedOffer(null));
+  };
+
+  const resetComments = () => {
+    dispatch(loadComentsToState(null));
+  };
 
   useEffect(() => {
     getOffer(id);
@@ -174,40 +188,4 @@ function OfferScreen({comments,
   );
 }
 
-OfferScreen.propTypes = {
-  comments: PropTypes.arrayOf(
-    PropTypes.oneOfType([offerScreenProp, PropTypes.number]),
-  ),
-  openedOffer: cardProp,
-  getOffer: PropTypes.func.isRequired,
-  loadComments: PropTypes.func.isRequired,
-  resetOpenedOffer: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-  resetComments: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  openedOffer: getOpenedOffer(state),
-  comments: getComments(state),
-  authorizationStatus: getAuthorizationStatus(state),
-
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getOffer(id) {
-    dispatch(fetchOffer(id));
-  },
-  loadComments(id) {
-    dispatch(fetchComments(id));
-  },
-  resetOpenedOffer() {
-    dispatch(setOpenedOffer(null));
-  },
-  resetComments() {
-    dispatch(loadComments(null));
-  },
-});
-
-export {OfferScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(OfferScreen);
-
+export default OfferScreen;

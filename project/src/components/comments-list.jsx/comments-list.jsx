@@ -1,22 +1,34 @@
 import React, {useEffect} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {ReviewsItem} from '../offer-screen/reviews-item';
 import {sortByDate} from '../../utils/offer';
 import {fetchComments} from '../../store/api-actions';
-import OfferScreenProp from '../offer-screen/offer-screen.prop';
-import CardProp from '../card/card.prop';
 import {getComments, getIsCommentFormSending} from '../../store/form-process/selectors';
 import {getOpenedOffer} from '../../store/offers-data/selectors';
 
-function CommentsList({comments, isCommentFormSending, openedOffer, loadComments}) {
-  const resultComments = comments.sort(sortByDate);
+function CommentsList() {
+  const comments = useSelector(getComments);
+  const isCommentFormSending = useSelector(getIsCommentFormSending);
+  const openedOffer = useSelector(getOpenedOffer);
+
+  const dispatch = useDispatch();
+
+  const loadComments = (offerId) => {
+    dispatch(fetchComments(offerId));
+  };
+
+
+  const resultComments = comments.slice().sort(sortByDate);
 
   useEffect(() => {
     if (isCommentFormSending === false) {
       loadComments(openedOffer.id);
     }
   }, [isCommentFormSending]);
+
+  if(comments === null) {
+    return null;
+  }
 
   return (
     <>
@@ -32,25 +44,4 @@ function CommentsList({comments, isCommentFormSending, openedOffer, loadComments
   );
 }
 
-const mapStateToProps = (state) => ({
-  comments: getComments(state),
-  isCommentFormSending: getIsCommentFormSending(state),
-  openedOffer: getOpenedOffer(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  loadComments(offerId) {
-    dispatch(fetchComments(offerId));
-  },
-});
-
-CommentsList.propTypes = {
-  comments: PropTypes.arrayOf(OfferScreenProp),
-  isCommentFormSending: PropTypes.bool.isRequired,
-  openedOffer: CardProp,
-  loadComments: PropTypes.func.isRequired,
-
-};
-
-export {CommentsList};
-export default connect(mapStateToProps, mapDispatchToProps)(CommentsList);
+export default CommentsList;

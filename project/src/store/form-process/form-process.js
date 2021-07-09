@@ -1,4 +1,4 @@
-import {ActionType, loadComments, sendComment} from '../action';
+import {loadComments, sendComment} from '../action';
 import {createReducer} from '@reduxjs/toolkit';
 
 const initialState = {

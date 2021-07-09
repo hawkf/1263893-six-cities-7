@@ -7,7 +7,7 @@ import {
   sendComment,
   setOpenedOffer,
   setUserEmail,
-  outLog,
+  outLog
 } from './action';
 import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
 import {updateOfferToClient} from '../utils/offer';

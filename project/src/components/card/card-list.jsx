@@ -1,13 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import cardProp from './card.prop';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 import Card from './card';
 import {getOffersByCity} from '../../utils/common';
 import {getCity, getOffers} from '../../store/offers-data/selectors';
 
-function CardList(props) {
-  const {offers, city} = props;
+function CardList() {
+  const offers = useSelector(getOffers);
+  const city = useSelector(getCity);
 
   return (
     <div className="cities__places-list places__list tabs__content">
@@ -16,16 +15,4 @@ function CardList(props) {
     </div>);
 }
 
-CardList.propTypes = {
-  offers: PropTypes.arrayOf(cardProp),
-  city: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  offers: getOffers(state),
-  city: getCity(state),
-});
-
-
-export {CardList};
-export default connect(mapStateToProps, null)(CardList);
+export default CardList;
