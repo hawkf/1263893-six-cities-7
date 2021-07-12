@@ -2,8 +2,9 @@ import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {postComment} from '../../store/api-actions';
-import {ActionGenerator} from '../../store/action';
+import {ActionGenerator, sendComment} from '../../store/action';
 import RatingInput from './rating-input';
+import {getIsCommentFormSending} from '../../store/form-process/selectors';
 
 function CommentForm({sendFormData, offerId, isCommentFormSending}) {
   const [rating, setRating] = useState(null);
@@ -66,12 +67,12 @@ function CommentForm({sendFormData, offerId, isCommentFormSending}) {
 }
 
 const mapStateToProps = (state) => ({
-  isCommentFormSending: state.isCommentFormSending,
+  isCommentFormSending: getIsCommentFormSending(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
   sendFormData(comment, offerId, onFail) {
-    dispatch(ActionGenerator.sendComment(true));
+    dispatch(sendComment(true));
     dispatch(postComment(comment, offerId, onFail));
   },
 });

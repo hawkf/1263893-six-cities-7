@@ -12,6 +12,8 @@ import {isCheckedAuth} from '../../utils/common';
 import AuthScreen from '../auth-screen/auth-screen';
 import PrivateRoute from '../private-route/private-route';
 import browserHistory from '../../browser-history';
+import {getIsDataLoaded} from '../../store/offers-data/selectors';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 function App(props) {
   const {isDataLoaded, authorizationStatus} = props;
@@ -57,8 +59,8 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  isDataLoaded: state.isDataLoaded,
-  authorizationStatus: state.authorizationStatus,
+  isDataLoaded: getIsDataLoaded(state),
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 export {App};

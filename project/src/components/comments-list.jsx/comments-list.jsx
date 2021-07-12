@@ -6,6 +6,8 @@ import {sortByDate} from '../../utils/offer';
 import {fetchComments} from '../../store/api-actions';
 import OfferScreenProp from '../offer-screen/offer-screen.prop';
 import CardProp from '../card/card.prop';
+import {getComments, getIsCommentFormSending} from '../../store/form-process/selectors';
+import {getOpenedOffer} from '../../store/offers-data/selectors';
 
 function CommentsList({comments, isCommentFormSending, openedOffer, loadComments}) {
   const resultComments = comments.sort(sortByDate);
@@ -31,9 +33,9 @@ function CommentsList({comments, isCommentFormSending, openedOffer, loadComments
 }
 
 const mapStateToProps = (state) => ({
-  comments: state.comments,
-  isCommentFormSending: state.isCommentFormSending,
-  openedOffer: state.openedOffer,
+  comments: getComments(state),
+  isCommentFormSending: getIsCommentFormSending(state),
+  openedOffer: getOpenedOffer(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

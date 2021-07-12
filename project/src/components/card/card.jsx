@@ -2,7 +2,7 @@ import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ActionGenerator} from '../../store/action';
+import {ActionGenerator, changeActiveOfferId} from '../../store/action';
 import CardMark from './card-mark';
 import cardProp from './card.prop';
 import {transformRating} from '../../utils/offer';
@@ -70,7 +70,7 @@ Card.propTypes = {
 
 const mapDispatchToProps = (dispatch) => ({
   onMouseAction(offerId) {
-    dispatch(ActionGenerator.changeActiveOfferId(offerId));
+    dispatch(changeActiveOfferId(offerId));
   },
   onClickAction(offerId) {
     dispatch(fetchOffer(offerId));

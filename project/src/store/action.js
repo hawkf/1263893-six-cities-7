@@ -1,3 +1,5 @@
+import {createAction} from '@reduxjs/toolkit';
+
 export const ActionType = {
   CHANGE_CITY: 'six-cities/changeCity',
   SET_DEFAULT_CITY_FILTER: 'six-cities/setDefaultCityFilter',
@@ -13,51 +15,46 @@ export const ActionType = {
   LOAD_OFFERS_NEARBY: 'data/loadOffersNearBy',
 };
 
-export const ActionGenerator = {
-  changeCity: (cityName) => ({
-    type: ActionType.CHANGE_CITY,
-    payload: cityName,
-  }),
-  setDefaultCityFilter: () => ({
-    type: ActionType.SET_DEFAULT_CITY_FILTER,
-  }),
-  changeActiveOfferId: (offerId) => ({
-    type: ActionType.CHANGE_ACTIVE_OFFER_ID,
-    payload: offerId,
-  }),
-  loadOffers: (offers) => ({
-    type:ActionType.LOAD_OFFERS,
-    payload: offers,
-  }),
-  requireAuthorization: (status) => ({
-    type: ActionType.REQUIRED_AUTHORIZATION,
-    payload: status,
-  }),
-  logout: () => ({
-    type: ActionType.LOGOUT,
-  }),
-  redirectToRoute: (url) => ({
-    type: ActionType.REDIRECT_TO_ROUTE,
-    payload: url,
-  }),
-  setUserEmail: (email) => ({
-    type: ActionType.SET_USER_EMAIL,
-    payload: email,
-  }),
-  setOpenedOffer: (offer) => ({
-    type: ActionType.SET_OPENED_OFFER,
-    payload: offer,
-  }),
-  loadComments: (comments) => ({
-    type: ActionType.LOAD_COMMENTS,
-    payload: comments,
-  }),
-  sendComment: (status) => ({
-    type: ActionType.SEND_COMMENT,
-    payload: status,
-  }),
-  loadOffersNearBy: (offersNearBy) => ({
-    type: ActionType.LOAD_OFFERS_NEARBY,
-    payload: offersNearBy,
-  }),
-};
+export const changeCity = createAction(ActionType.CHANGE_CITY, (cityName) => ({
+  payload: cityName,
+}));
+
+export const setDefaultCityFilter = createAction(ActionType.SET_DEFAULT_CITY_FILTER);
+
+export const changeActiveOfferId = createAction(ActionType.CHANGE_ACTIVE_OFFER_ID, (offerId) => ({
+  payload: offerId,
+}))
+
+export const loadOffers = createAction(ActionType.LOAD_OFFERS, (offers) => ({
+  payload: offers,
+}));
+
+export const requireAuthorization = createAction(ActionType.REQUIRED_AUTHORIZATION, (status) => ({
+  payload: status,
+}))
+
+export const outLog = createAction(ActionType.LOGOUT);
+
+export const redirectToRoute = createAction(ActionType.REDIRECT_TO_ROUTE, (url) => ({
+  payload: url,
+}));
+
+export const setUserEmail = createAction(ActionType.SET_USER_EMAIL, (email) => ({
+  payload: email,
+}));
+
+export const setOpenedOffer = createAction(ActionType.SET_OPENED_OFFER, (offer) => ({
+  payload: offer,
+}));
+
+export const loadComments = createAction(ActionType.LOAD_COMMENTS, (comments) => ({
+  payload: comments,
+}))
+
+export const sendComment = createAction(ActionType.SEND_COMMENT, (status) => ({
+  payload: status,
+}));
+
+export const loadOffersNearBy = createAction(ActionType.LOAD_OFFERS_NEARBY, (offersNearBy) => ({
+  payload: offersNearBy,
+}))

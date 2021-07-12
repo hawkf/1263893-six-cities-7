@@ -4,6 +4,7 @@ import cardProp from './card.prop';
 import PropTypes from 'prop-types';
 import Card from './card';
 import {getOffersByCity} from '../../utils/common';
+import {getCity, getOffers} from '../../store/offers-data/selectors';
 
 function CardList(props) {
   const {offers, city} = props;
@@ -21,8 +22,8 @@ CardList.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
-  city: state.city,
+  offers: getOffers(state),
+  city: getCity(state),
 });
 
 

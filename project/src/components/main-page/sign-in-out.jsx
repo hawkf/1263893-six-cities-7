@@ -5,6 +5,7 @@ import {logout} from '../../store/api-actions';
 import {Link, useHistory} from 'react-router-dom';
 import {AuthorizationStatus} from '../../const';
 import {AppRoute} from '../../const';
+import {getAuthorizationStatus} from '../../store/user/selectors';
 
 function SignInOut({authorizationStatus, onSignOut}) {
   const history = useHistory();
@@ -25,7 +26,7 @@ function SignInOut({authorizationStatus, onSignOut}) {
 }
 
 const mapStateToProps = (state) => ({
-  authorizationStatus: state.authorizationStatus,
+  authorizationStatus: getAuthorizationStatus(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

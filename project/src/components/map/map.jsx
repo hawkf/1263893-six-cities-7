@@ -7,6 +7,7 @@ import useMap from './useMap';
 import cardProp from '../card/card.prop';
 import {DEFAULT_MARKER_URL, CURRENT_MARKER_URL} from '../../const';
 import {getOffersByCity} from '../../utils/common';
+import {getActiveOfferId, getCity, getOffers} from '../../store/offers-data/selectors';
 
 export function Map({allOffers, activeOfferId, city}) {
   const offers = getOffersByCity(city, allOffers);
@@ -71,9 +72,9 @@ Map.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  activeOfferId: state.activeOfferId,
-  allOffers: state.offers,
-  city: state.city,
+  activeOfferId: getActiveOfferId(state),
+  allOffers: getOffers(state),
+  city: getCity(state),
 });
 
 export default connect(mapStateToProps, null)(Map);

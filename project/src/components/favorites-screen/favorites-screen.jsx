@@ -7,6 +7,7 @@ import UserName from '../main-page/user-name';
 import EmptyFavoriteList from './empty-favorite-list';
 import FavoritesList from './favorites-list';
 import SignInOut from '../main-page/sign-in-out';
+import {getOffers} from '../../store/offers-data/selectors';
 
 function FavoritesScreen({offers}) {
   const favoriteOffers = offers.filter((item) => item.isFavorite);
@@ -53,7 +54,7 @@ FavoritesScreen.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  offers: state.offers,
+  offers: getOffers(state),
 });
 
 export {FavoritesScreen};
