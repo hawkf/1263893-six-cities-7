@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {postComment} from '../../store/api-actions';
-import {ActionGenerator, sendComment} from '../../store/action';
+import {sendComment} from '../../store/action';
 import RatingInput from './rating-input';
 import {getIsCommentFormSending} from '../../store/form-process/selectors';
+import swal from 'sweetalert';
 
-function CommentForm({sendFormData, offerId, isCommentFormSending}) {
+function CommentForm({offerId}) {
   const [rating, setRating] = useState(null);
   const [text, setText] = useState('');
 
@@ -14,6 +15,15 @@ function CommentForm({sendFormData, offerId, isCommentFormSending}) {
   const MAX_TEXT_LENGTH = 300;
   const RATING_VALUES = [1, 2, 3, 4, 5];
   const ON_FAIL_MESSAGE = 'Произошла ошибка во время отправки коментария';
+
+  const isCommentFormSending = useSelector(getIsCommentFormSending);
+
+  const dispatch = useDispatch();
+
+  const sendFormData = (comment, id, onFailAction) => {
+    dispatch(sendComment(true));
+    dispatch(postComment(comment, id, onFailAction));
+  };
 
   useEffect(() => {
     if (isCommentFormSending === false) {
@@ -31,13 +41,13 @@ function CommentForm({sendFormData, offerId, isCommentFormSending}) {
     setText(evt.target.value);
   }
 
-  function onFail() {
-    throw new Error(ON_FAIL_MESSAGE);
+  function onFail1() {
+    swal(ON_FAIL_MESSAGE);
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    sendFormData({comment: text, rating: rating}, offerId, () => onFail());
+    sendFormData({comment: text, rating: rating}, offerId, () => onFail1());
   }
 
   const isFormReadyToSend = !isCommentFormSending &&
@@ -66,22 +76,8 @@ function CommentForm({sendFormData, offerId, isCommentFormSending}) {
     </form>);
 }
 
-const mapStateToProps = (state) => ({
-  isCommentFormSending: getIsCommentFormSending(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  sendFormData(comment, offerId, onFail) {
-    dispatch(sendComment(true));
-    dispatch(postComment(comment, offerId, onFail));
-  },
-});
-
 CommentForm.propTypes = {
-  isCommentFormSending: PropTypes.bool.isRequired,
-  sendFormData: PropTypes.func.isRequired,
   offerId: PropTypes.string.isRequired,
 };
 
-export {CommentForm};
-export default connect(mapStateToProps, mapDispatchToProps)(CommentForm);
+export default CommentForm;

@@ -1,24 +1,29 @@
 import React from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {ActionGenerator, changeActiveOfferId} from '../../store/action';
+import {useDispatch} from 'react-redux';
+import {changeActiveOfferId} from '../../store/action';
 import CardMark from './card-mark';
 import cardProp from './card.prop';
 import {transformRating} from '../../utils/offer';
-import {fetchOffer} from '../../store/api-actions';
+import BookMarkButton from '../bookmark-button/bookmark-button';
 
-function Card({offer, onMouseAction, onClickAction}) {
+function Card({offer}) {
   const history = useHistory();
   const OFFER_PAGE = `/offer/${offer.id}`;
   const {cardImage, price, rating, title, type, isPremium} = offer;
   const ratingWidth = transformRating(rating);
 
-  function onMouseOverHandler() {
+  const dispatch = useDispatch();
+
+  const onMouseAction = (offerId) => {
+    dispatch(changeActiveOfferId(offerId));
+  };
+
+  function onMouseOverHandle() {
     onMouseAction(offer.id);
   }
 
-  function onMouseOutHandler() {
+  function onMouseOutHandle() {
     onMouseAction(null);
   }
 
@@ -27,7 +32,7 @@ function Card({offer, onMouseAction, onClickAction}) {
   }
 
   return (
-    <article onMouseOver={onMouseOverHandler} onMouseOut={onMouseOutHandler} onClick={onClickHandle} className="cities__place-card place-card">
+    <article onMouseOver={onMouseOverHandle} onMouseOut={onMouseOutHandle} className="cities__place-card place-card">
       <CardMark isPremium={isPremium}/>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={OFFER_PAGE}>
@@ -40,12 +45,12 @@ function Card({offer, onMouseAction, onClickAction}) {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <BookMarkButton className={'place-card__bookmark-button'} offer={offer}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">To bookmarks</span>
-          </button>
+          </BookMarkButton>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -53,7 +58,7 @@ function Card({offer, onMouseAction, onClickAction}) {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name">
+        <h2 onClick={onClickHandle} className="place-card__name">
           <Link to={OFFER_PAGE}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
@@ -64,19 +69,6 @@ function Card({offer, onMouseAction, onClickAction}) {
 
 Card.propTypes = {
   offer: cardProp,
-  onMouseAction: PropTypes.func.isRequired,
-  onClickAction: PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onMouseAction(offerId) {
-    dispatch(changeActiveOfferId(offerId));
-  },
-  onClickAction(offerId) {
-    dispatch(fetchOffer(offerId));
-  },
-});
-
-export {Card};
-export default connect(null, mapDispatchToProps)(Card);
-
+export default Card;

@@ -1,11 +1,17 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import {ActionGenerator, changeCity} from '../../store/action';
+import {useSelector, useDispatch} from 'react-redux';
+import {changeCity} from '../../store/action';
 import {CITIES} from '../../const';
 import {getCity} from '../../store/offers-data/selectors';
 
-function CitiesMenu({cityActive, changeActiveCity}) {
+function CitiesMenu() {
+  const cityActive = useSelector(getCity);
+
+  const dispatch = useDispatch();
+
+  const changeActiveCity = (cityName) => {
+    dispatch(changeCity(cityName));
+  };
 
   return (
     <div className="tabs">
@@ -23,20 +29,4 @@ function CitiesMenu({cityActive, changeActiveCity}) {
   );
 }
 
-CitiesMenu.propTypes = {
-  cityActive: PropTypes.string.isRequired,
-  changeActiveCity: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  cityActive: getCity(state),
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  changeActiveCity(cityName) {
-    dispatch(changeCity(cityName));
-  },
-});
-
-export {CitiesMenu};
-export default connect(mapStateToProps, mapDispatchToProps)(CitiesMenu);
+export default CitiesMenu;

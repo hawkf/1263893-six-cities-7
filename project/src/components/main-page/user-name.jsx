@@ -1,11 +1,12 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 import {AppRoute} from '../../const';
 import {Link} from 'react-router-dom';
 import {getUserEmail} from '../../store/user/selectors';
 
-function UserName({userEmail}) {
+function UserName() {
+  const userEmail = useSelector(getUserEmail);
+
   if (userEmail === null) {
     return null;
   }
@@ -19,15 +20,4 @@ function UserName({userEmail}) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  userEmail: getUserEmail(state),
-});
-
-UserName.propTypes = {
-  userEmail: PropTypes.oneOfType(
-    PropTypes.string, null,
-  ),
-};
-
-export {UserName};
-export default connect(mapStateToProps, null)(UserName);
+export default UserName;

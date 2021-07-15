@@ -7,7 +7,7 @@ import {
   sendComment,
   setOpenedOffer,
   setUserEmail,
-  outLog,
+  outLog, changeFavoritesState
 } from './action';
 import {APIRoute, AppRoute, AuthorizationStatus} from '../const';
 import {updateOfferToClient} from '../utils/offer';
@@ -15,8 +15,8 @@ import {updateCommentToClient} from '../utils/comment';
 
 export const fetchOfferList = () => (dispatch, _getState, api) => (
   api.get(APIRoute.OFFERS)
-    .then(({data}) => dispatch(loadOffers(data.map((item) => updateOfferToClient(item)))))
-);
+    .then(({data}) => dispatch(loadOffers(data.map((item) => updateOfferToClient(item)))),
+    ));
 
 export const fetchOffersNearBy = (id) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.OFFERS}/${id}/nearby`)
@@ -38,18 +38,25 @@ export const checkAuth = () => (dispatch, _getState, api) => (
   api.get(APIRoute.LOGIN)
     .then(({data}) => dispatch(setUserEmail(data.email)))
     .then(() => dispatch(requireAuthorization(AuthorizationStatus.AUTH)))
-    .catch(() => {})
+    .catch(() => {
+    })
 );
 
 export const postComment = (comment, offerId, onFailSendComment) => (dispatch, _getState, api) => (
   api.post(`${APIRoute.COMMENTS}${offerId}`, comment)
+    .then(({data}) => dispatch(loadComments(data.map((item) => updateCommentToClient(item)))))
     .then(() => dispatch(sendComment(false)))
-    .then(() => fetchComments(offerId))
     .catch(() => {
       onFailSendComment();
       dispatch(sendComment(false));
     })
 );
+
+export const changeFavorites = (offerId, status) => (dispatch, _getState, api) => {
+  api.post(`${APIRoute.FAVORITE}/${offerId}/${status}`)
+    .then(({data}) => dispatch(changeFavoritesState(updateOfferToClient(data))))
+    .catch(() => dispatch(redirectToRoute(AppRoute.LOGIN)));
+};
 
 export const login = ({login: email, password}) => (dispatch, _getState, api) => (
   api.post(APIRoute.LOGIN, {email, password})

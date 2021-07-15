@@ -1,38 +1,66 @@
 import React, {useEffect} from 'react';
 import {useParams} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-import cardProp from '../card/card.prop';
-import offerScreenProp from './offer-screen.prop';
+import {useDispatch, useSelector} from 'react-redux';
 import {transformRating} from '../../utils/offer';
 import {nanoid} from 'nanoid';
 import {Logo} from '../logo/logo';
 import CommentForm from '../comment-form/comment-form';
 import UserName from '../main-page/user-name';
 import SignInOut from '../main-page/sign-in-out';
-import {fetchOffer, fetchComments} from '../../store/api-actions';
+import {fetchOffer, fetchComments, fetchOffersNearBy} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {ActionGenerator, loadComments, setOpenedOffer} from '../../store/action';
+import {changeActiveOfferId, setOpenedOffer} from '../../store/action';
 import CommentsList from '../comments-list.jsx/comments-list';
 import {AuthorizationStatus} from '../../const';
 import NearbyOffersList from '../nearby-offers-list/nearby-offers-list';
-import {getOpenedOffer} from '../../store/offers-data/selectors';
+import {getOffersNearBy, getOpenedOffer} from '../../store/offers-data/selectors';
 import {getComments} from '../../store/form-process/selectors';
 import {getAuthorizationStatus} from '../../store/user/selectors';
+import {loadComments as loadComentsToState} from '../../store/action';
+import BookMarkButton from '../bookmark-button/bookmark-button';
+import Map from '../map/map';
 
-function OfferScreen({comments,
-  openedOffer,
-  getOffer,
-  loadComments,
-  resetOpenedOffer,
-  resetComments,
-  authorizationStatus}) {
+function OfferScreen() {
 
   const {id} = useParams();
 
+  const openedOffer = useSelector(getOpenedOffer);
+  const comments = useSelector(getComments);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const offersNearby = useSelector(getOffersNearBy);
+
+  const dispatch = useDispatch();
+
+  const getOffer = (offerId) => {
+    dispatch(fetchOffer(offerId));
+  };
+
+  const loadOffersNearBy = (offerId) => {
+    dispatch(fetchOffersNearBy(id));
+  };
+
+
+  const loadComments = (offerId) => {
+    dispatch(fetchComments(offerId));
+  };
+
+  const resetOpenedOffer = () => {
+    dispatch(setOpenedOffer(null));
+  };
+
+  const resetComments = () => {
+    dispatch(loadComentsToState(null));
+  };
+
+  const setActiveOffer = (offerId) => {
+    dispatch(changeActiveOfferId(offerId));
+  };
+
   useEffect(() => {
     getOffer(id);
+    setActiveOffer(id);
     loadComments(id);
+    loadOffersNearBy(id);
 
     return () => {
       resetOpenedOffer();
@@ -40,11 +68,14 @@ function OfferScreen({comments,
     };
   }, [id]);
 
-  if (openedOffer === null || comments === null) {
+  if (openedOffer === null || comments === null || offersNearby === null) {
     return (
       <LoadingScreen/>
     );
   }
+
+  const offersMap = offersNearby.concat(openedOffer);
+
   const {
     images,
     description,
@@ -103,12 +134,12 @@ function OfferScreen({comments,
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <BookMarkButton className={'property__bookmark-button'} offer={openedOffer}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
-                </button>
+                </BookMarkButton>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -166,7 +197,9 @@ function OfferScreen({comments,
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            <Map offers={offersMap}/>
+          </section>
         </section>
         <NearbyOffersList/>
       </main>
@@ -174,40 +207,4 @@ function OfferScreen({comments,
   );
 }
 
-OfferScreen.propTypes = {
-  comments: PropTypes.arrayOf(
-    PropTypes.oneOfType([offerScreenProp, PropTypes.number]),
-  ),
-  openedOffer: cardProp,
-  getOffer: PropTypes.func.isRequired,
-  loadComments: PropTypes.func.isRequired,
-  resetOpenedOffer: PropTypes.func.isRequired,
-  authorizationStatus: PropTypes.string.isRequired,
-  resetComments: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  openedOffer: getOpenedOffer(state),
-  comments: getComments(state),
-  authorizationStatus: getAuthorizationStatus(state),
-
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  getOffer(id) {
-    dispatch(fetchOffer(id));
-  },
-  loadComments(id) {
-    dispatch(fetchComments(id));
-  },
-  resetOpenedOffer() {
-    dispatch(setOpenedOffer(null));
-  },
-  resetComments() {
-    dispatch(loadComments(null));
-  },
-});
-
-export {OfferScreen};
-export default connect(mapStateToProps, mapDispatchToProps)(OfferScreen);
-
+export default OfferScreen;

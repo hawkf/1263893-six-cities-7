@@ -1,18 +1,18 @@
 import React, {useRef, useEffect} from 'react';
-import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import {useSelector} from 'react-redux';
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
 import useMap from './useMap';
-import cardProp from '../card/card.prop';
 import {DEFAULT_MARKER_URL, CURRENT_MARKER_URL} from '../../const';
-import {getOffersByCity} from '../../utils/common';
-import {getActiveOfferId, getCity, getOffers} from '../../store/offers-data/selectors';
+import {getActiveOfferId} from '../../store/offers-data/selectors';
+import cardProp from '../card/card.prop';
 
-export function Map({allOffers, activeOfferId, city}) {
-  const offers = getOffersByCity(city, allOffers);
+export function Map({offers}) {
   const mapRef = useRef();
+  const activeOfferId = useSelector(getActiveOfferId);
   const map = useMap(mapRef, offers[0].cityLocation);
+
   const defaultIcon = leaflet.icon({
     iconUrl: DEFAULT_MARKER_URL,
     iconSize: [30, 30],
@@ -56,25 +56,12 @@ export function Map({allOffers, activeOfferId, city}) {
   }, [map, offers, activeOfferId]);
 
   return (
-    <div className="cities__right-section">
-      <section className="cities__map map">
-        <div id="map" ref={mapRef} style={{height: '100%'}}></div>
-      </section>
-    </div>);
+    <div id="map" ref={mapRef} style={{height: '100%'}}></div>
+  );
 }
 
 Map.propTypes = {
-  allOffers: PropTypes.arrayOf(
-    cardProp,
-  ),
-  activeOfferId: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  city: PropTypes.string.isRequired,
+  offers: PropTypes.arrayOf(cardProp),
 };
 
-const mapStateToProps = (state) => ({
-  activeOfferId: getActiveOfferId(state),
-  allOffers: getOffers(state),
-  city: getCity(state),
-});
-
-export default connect(mapStateToProps, null)(Map);
+export default Map;

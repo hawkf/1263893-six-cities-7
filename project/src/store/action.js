@@ -5,6 +5,7 @@ export const ActionType = {
   SET_DEFAULT_CITY_FILTER: 'six-cities/setDefaultCityFilter',
   CHANGE_ACTIVE_OFFER_ID: 'six-cities/changeActiveOfferId',
   LOAD_OFFERS: 'data/loadOffers',
+  CHANGE_FAVORITES: 'data/changeFavorites',
   REQUIRED_AUTHORIZATION: 'user/requiredAuthorization',
   LOGOUT: 'user/logout',
   REDIRECT_TO_ROUTE: 'six-cities/redirectToRoute',
@@ -13,6 +14,7 @@ export const ActionType = {
   LOAD_COMMENTS: 'data/loadComments',
   SEND_COMMENT: 'data/sendComment',
   LOAD_OFFERS_NEARBY: 'data/loadOffersNearBy',
+  SET_SORT_TYPE: 'data/setSortType',
 };
 
 export const changeCity = createAction(ActionType.CHANGE_CITY, (cityName) => ({
@@ -23,7 +25,11 @@ export const setDefaultCityFilter = createAction(ActionType.SET_DEFAULT_CITY_FIL
 
 export const changeActiveOfferId = createAction(ActionType.CHANGE_ACTIVE_OFFER_ID, (offerId) => ({
   payload: offerId,
-}))
+}));
+
+export const changeFavoritesState =createAction(ActionType.CHANGE_FAVORITES, (offer) => ({
+  payload: offer,
+}));
 
 export const loadOffers = createAction(ActionType.LOAD_OFFERS, (offers) => ({
   payload: offers,
@@ -31,7 +37,7 @@ export const loadOffers = createAction(ActionType.LOAD_OFFERS, (offers) => ({
 
 export const requireAuthorization = createAction(ActionType.REQUIRED_AUTHORIZATION, (status) => ({
   payload: status,
-}))
+}));
 
 export const outLog = createAction(ActionType.LOGOUT);
 
@@ -49,7 +55,7 @@ export const setOpenedOffer = createAction(ActionType.SET_OPENED_OFFER, (offer) 
 
 export const loadComments = createAction(ActionType.LOAD_COMMENTS, (comments) => ({
   payload: comments,
-}))
+}));
 
 export const sendComment = createAction(ActionType.SEND_COMMENT, (status) => ({
   payload: status,
@@ -57,4 +63,8 @@ export const sendComment = createAction(ActionType.SEND_COMMENT, (status) => ({
 
 export const loadOffersNearBy = createAction(ActionType.LOAD_OFFERS_NEARBY, (offersNearBy) => ({
   payload: offersNearBy,
-}))
+}));
+
+export const setSortType = createAction(ActionType.SET_SORT_TYPE, (sortType) => ({
+  payload: sortType,
+}));

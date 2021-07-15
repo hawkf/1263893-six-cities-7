@@ -3,11 +3,24 @@ import dayjs from 'dayjs';
 const MAX_RATING = 5;
 
 export function transformRating(rating) {
-  return (Math.round(rating)*100)/MAX_RATING;
+  const result = (Math.round(rating)*100)/MAX_RATING;
+  return `${result}%`;
 }
 
 export function sortByDate(commentA, commentB) {
   return dayjs(commentB.date).diff(commentA.date);
+}
+
+export function sortPriceHighToLow(offerA, offerB) {
+  return offerB.price - offerA.price;
+}
+
+export function sortPriceLowToHigh(offerA, offerB) {
+  return offerA.price - offerB.price;
+}
+
+export function sortRatingTop(offerA, offerB) {
+  return offerB.rating - offerA.rating;
 }
 
 export function humanizeCommentDate(date) {
@@ -31,7 +44,6 @@ export const updateOfferToClient = (offer) => {
         name: offer.host.name,
       },
       cardImage: offer['preview_image'],
-      rating: 4.8,
       isPremium: offer['is_premium'],
       location: offer.location,
     },

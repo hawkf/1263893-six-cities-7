@@ -5,8 +5,6 @@ import {configureStore} from '@reduxjs/toolkit';
 import {redirect} from './store/middlewares/redirect';
 import {createApi} from './services/api';
 import App from './components/app/app';
-import {offers} from './mocks/offers';
-import {comments} from './mocks/comments';
 import rootReducer from './store/root-reducer';
 import {fetchOfferList, checkAuth} from './store/api-actions';
 import {requireAuthorization} from './store/action';
@@ -32,7 +30,7 @@ store.dispatch(fetchOfferList());
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App offers={offers} comments={comments}/>
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'));
