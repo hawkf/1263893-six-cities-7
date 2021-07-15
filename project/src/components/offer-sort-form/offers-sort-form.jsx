@@ -15,11 +15,11 @@ function OffersSortForm() {
   const onClickOptionHandle = (type) => {
     dispatch(setSortType(type));
     setIsOptionListOpened(!isOptionListOpened);
-  }
+  };
 
   const onClickTypeHandle = () => {
-    setIsOptionListOpened(!isOptionListOpened)
-  }
+    setIsOptionListOpened(!isOptionListOpened);
+  };
 
   return (
     <form className="places__sorting" action="#" method="get">

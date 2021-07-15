@@ -29,7 +29,7 @@ export const APIRoute = {
   LOGIN: '/login',
   LOGOUT: '/logout',
   COMMENTS: '/comments/',
-  FAVORITE: '/favorite'
+  FAVORITE: '/favorite',
 };
 
 export const SortType = {
@@ -37,4 +37,4 @@ export const SortType = {
   PRICE_LOW_TO_HIGH: 'Price: low to high',
   PRICE_HIGH_TO_LOW: 'Price: high to low',
   TOP_RATED_FIRST: 'Top rated first',
-}
+};

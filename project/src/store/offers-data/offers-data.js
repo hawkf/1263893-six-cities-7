@@ -49,7 +49,7 @@ const offersData = createReducer(initialState, (builder) => {
     })
     .addCase(setSortType, (state, action) => {
       state.sortType = action.payload;
-    })
+    });
 });
 
 export {offersData};

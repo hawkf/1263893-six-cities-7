@@ -1,23 +1,18 @@
 import React, {useRef, useEffect} from 'react';
+import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
 import useMap from './useMap';
 import {DEFAULT_MARKER_URL, CURRENT_MARKER_URL} from '../../const';
-import {getOffersByCity} from '../../utils/common';
-import {getActiveOfferId, getCity, getOffers} from '../../store/offers-data/selectors';
+import {getActiveOfferId} from '../../store/offers-data/selectors';
+import cardProp from '../card/card.prop';
 
 export function Map({offers}) {
-  if (offers === null) {
-    return null;
-  }
-  const activeOfferId = useSelector(getActiveOfferId);
-  /*const allOffers = useSelector(getOffers);
-  const city = useSelector(getCity);
-
-  const offers = getOffersByCity(city, allOffers);*/
   const mapRef = useRef();
+  const activeOfferId = useSelector(getActiveOfferId);
   const map = useMap(mapRef, offers[0].cityLocation);
+
   const defaultIcon = leaflet.icon({
     iconUrl: DEFAULT_MARKER_URL,
     iconSize: [30, 30],
@@ -62,7 +57,11 @@ export function Map({offers}) {
 
   return (
     <div id="map" ref={mapRef} style={{height: '100%'}}></div>
-    );
+  );
 }
+
+Map.propTypes = {
+  offers: PropTypes.arrayOf(cardProp),
+};
 
 export default Map;

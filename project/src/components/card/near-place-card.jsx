@@ -7,7 +7,7 @@ import BookMarkButton from '../bookmark-button/bookmark-button';
 export function NearPlaceCard({offer}) {
   const history = useHistory();
   const OFFER_PAGE = `/offer/${offer.id}`;
-  const {cardImage, price, rating, title, type, isFavorite} = offer;
+  const {cardImage, price, rating, title, type} = offer;
   const ratingWidth = transformRating(rating);
 
   function onClickHandle() {

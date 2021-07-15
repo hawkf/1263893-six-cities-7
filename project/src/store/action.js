@@ -29,7 +29,7 @@ export const changeActiveOfferId = createAction(ActionType.CHANGE_ACTIVE_OFFER_I
 
 export const changeFavoritesState =createAction(ActionType.CHANGE_FAVORITES, (offer) => ({
   payload: offer,
-}))
+}));
 
 export const loadOffers = createAction(ActionType.LOAD_OFFERS, (offers) => ({
   payload: offers,

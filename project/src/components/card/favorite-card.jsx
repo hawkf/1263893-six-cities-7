@@ -6,7 +6,7 @@ import BookMarkButton from '../bookmark-button/bookmark-button';
 
 function FavoriteCard({offer}) {
   const history = useHistory();
-  const {cardImage, price, rating, title, type, isFavorite} = offer;
+  const {cardImage, price, rating, title, type} = offer;
   const OFFER_PAGE = `/offer/${offer.id}`;
   const ratingWidth = transformRating(rating);
 

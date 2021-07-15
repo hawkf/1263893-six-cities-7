@@ -4,7 +4,6 @@ const MAX_RATING = 5;
 
 export function transformRating(rating) {
   const result = (Math.round(rating)*100)/MAX_RATING;
-  console.log(result);
   return `${result}%`;
 }
 

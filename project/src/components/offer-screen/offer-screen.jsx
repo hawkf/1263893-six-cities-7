@@ -7,7 +7,7 @@ import {Logo} from '../logo/logo';
 import CommentForm from '../comment-form/comment-form';
 import UserName from '../main-page/user-name';
 import SignInOut from '../main-page/sign-in-out';
-import {fetchOffer, fetchComments, changeFavorites, fetchOffersNearBy} from '../../store/api-actions';
+import {fetchOffer, fetchComments, fetchOffersNearBy} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {changeActiveOfferId, setOpenedOffer} from '../../store/action';
 import CommentsList from '../comments-list.jsx/comments-list';
@@ -35,7 +35,7 @@ function OfferScreen() {
     dispatch(fetchOffer(offerId));
   };
 
-  const loadOffersNearBy = (id) => {
+  const loadOffersNearBy = (offerId) => {
     dispatch(fetchOffersNearBy(id));
   };
 
@@ -53,8 +53,8 @@ function OfferScreen() {
   };
 
   const setActiveOffer = (offerId) => {
-    dispatch(changeActiveOfferId(offerId))
-  }
+    dispatch(changeActiveOfferId(offerId));
+  };
 
   useEffect(() => {
     getOffer(id);
