@@ -8,3 +8,5 @@ export const isCheckedAuth = (authorizationStatus) =>
   authorizationStatus === AuthorizationStatus.UNKNOWN;
 
 export const findOffer = (offers, id) => offers.findIndex((element) => element.id === id)
+
+

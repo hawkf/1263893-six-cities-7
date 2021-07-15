@@ -14,6 +14,7 @@ function OffersSortForm() {
 
   const onClickOptionHandle = (type) => {
     dispatch(setSortType(type));
+    setIsOptionListOpened(!isOptionListOpened);
   }
 
   const onClickTypeHandle = () => {

@@ -90,7 +90,6 @@ function OfferScreen() {
     isPremium,
   } = openedOffer;
 
-  console.log(rating);
   const ratingWidth = transformRating(rating);
   const {avatarUrl, isPro, name} = host;
   const isAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
