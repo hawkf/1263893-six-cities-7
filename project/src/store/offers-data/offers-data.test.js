@@ -1,5 +1,6 @@
 import {ActionType} from '../action';
 import {offersData} from './offers-data';
+import {SortType} from '../../const';
 
 const DEFAULT_CITY = 'Paris';
 
@@ -10,6 +11,7 @@ const state = {
   openedOffer: null,
   activeOfferId: null,
   isDataLoaded: false,
+  sortType: SortType.POPULAR,
 };
 
 describe('Reducer: offersData', () => {
