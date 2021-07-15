@@ -5,6 +5,7 @@ import {postComment} from '../../store/api-actions';
 import {sendComment} from '../../store/action';
 import RatingInput from './rating-input';
 import {getIsCommentFormSending} from '../../store/form-process/selectors';
+import swal from 'sweetalert';
 
 function CommentForm({offerId}) {
   const [rating, setRating] = useState(null);
@@ -40,13 +41,13 @@ function CommentForm({offerId}) {
     setText(evt.target.value);
   }
 
-  function onFail() {
-    throw new Error(ON_FAIL_MESSAGE);
+  function onFail1() {
+    swal(ON_FAIL_MESSAGE);
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    sendFormData({comment: text, rating: rating}, offerId, () => onFail());
+    sendFormData({comment: text, rating: rating}, offerId, () => onFail1());
   }
 
   const isFormReadyToSend = !isCommentFormSending &&
