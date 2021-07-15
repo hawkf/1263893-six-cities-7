@@ -2,11 +2,12 @@ import React from 'react';
 import {transformRating} from '../../utils/offer';
 import {Link, useHistory} from 'react-router-dom';
 import cardProp from './card.prop';
+import BookMarkButton from '../bookmark-button/bookmark-button';
 
 export function NearPlaceCard({offer}) {
   const history = useHistory();
   const OFFER_PAGE = `/offer/${offer.id}`;
-  const {cardImage, price, rating, title, type} = offer;
+  const {cardImage, price, rating, title, type, isFavorite} = offer;
   const ratingWidth = transformRating(rating);
 
   function onClickHandle() {
@@ -14,7 +15,7 @@ export function NearPlaceCard({offer}) {
   }
 
   return (
-    <article onClick={onClickHandle} className="near-places__card place-card">
+    <article className="near-places__card place-card">
       <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={OFFER_PAGE}>
           <img className="place-card__image" src={cardImage} width="260" height="200" alt="Place image"/>
@@ -26,12 +27,12 @@ export function NearPlaceCard({offer}) {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button button" type="button">
+          <BookMarkButton className={'place-card__bookmark-button'} offer={offer}>
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
             <span className="visually-hidden">To bookmarks</span>
-          </button>
+          </BookMarkButton>
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -39,7 +40,7 @@ export function NearPlaceCard({offer}) {
             <span className="visually-hidden">Rating</span>
           </div>
         </div>
-        <h2 className="place-card__name">
+        <h2 onClick={onClickHandle} className="place-card__name">
           <Link to={OFFER_PAGE}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>

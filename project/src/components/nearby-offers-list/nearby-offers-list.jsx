@@ -1,23 +1,10 @@
-import React, {useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import React from 'react';
+import {useSelector} from 'react-redux';
 import {NearPlaceCard} from '../card/near-place-card';
-import {fetchOffersNearBy} from '../../store/api-actions';
-import {getOffersNearBy, getOpenedOffer} from '../../store/offers-data/selectors';
+import {getOffersNearBy} from '../../store/offers-data/selectors';
 
 function NearbyOffersList() {
   const offersNearby = useSelector(getOffersNearBy);
-  const openedOffer = useSelector(getOpenedOffer);
-
-  const dispatch = useDispatch();
-
-  const loadOffersNearBy = (id) => {
-    dispatch(fetchOffersNearBy(id));
-  };
-
-  useEffect(() => {
-    loadOffersNearBy(openedOffer.id);
-
-  }, [openedOffer]);
 
   if (offersNearby === null) {
     return null;

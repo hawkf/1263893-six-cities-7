@@ -7,16 +7,18 @@ import {Logo} from '../logo/logo';
 import CommentForm from '../comment-form/comment-form';
 import UserName from '../main-page/user-name';
 import SignInOut from '../main-page/sign-in-out';
-import {fetchOffer, fetchComments} from '../../store/api-actions';
+import {fetchOffer, fetchComments, changeFavorites, fetchOffersNearBy} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
-import {setOpenedOffer} from '../../store/action';
+import {changeActiveOfferId, setOpenedOffer} from '../../store/action';
 import CommentsList from '../comments-list.jsx/comments-list';
 import {AuthorizationStatus} from '../../const';
 import NearbyOffersList from '../nearby-offers-list/nearby-offers-list';
-import {getOpenedOffer} from '../../store/offers-data/selectors';
+import {getOffersNearBy, getOpenedOffer} from '../../store/offers-data/selectors';
 import {getComments} from '../../store/form-process/selectors';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 import {loadComments as loadComentsToState} from '../../store/action';
+import BookMarkButton from '../bookmark-button/bookmark-button';
+import Map from '../map/map';
 
 function OfferScreen() {
 
@@ -25,12 +27,18 @@ function OfferScreen() {
   const openedOffer = useSelector(getOpenedOffer);
   const comments = useSelector(getComments);
   const authorizationStatus = useSelector(getAuthorizationStatus);
+  const offersNearby = useSelector(getOffersNearBy);
 
   const dispatch = useDispatch();
 
   const getOffer = (offerId) => {
     dispatch(fetchOffer(offerId));
   };
+
+  const loadOffersNearBy = (id) => {
+    dispatch(fetchOffersNearBy(id));
+  };
+
 
   const loadComments = (offerId) => {
     dispatch(fetchComments(offerId));
@@ -44,9 +52,15 @@ function OfferScreen() {
     dispatch(loadComentsToState(null));
   };
 
+  const setActiveOffer = (offerId) => {
+    dispatch(changeActiveOfferId(offerId))
+  }
+
   useEffect(() => {
     getOffer(id);
+    setActiveOffer(id);
     loadComments(id);
+    loadOffersNearBy(id);
 
     return () => {
       resetOpenedOffer();
@@ -54,11 +68,14 @@ function OfferScreen() {
     };
   }, [id]);
 
-  if (openedOffer === null || comments === null) {
+  if (openedOffer === null || comments === null || offersNearby === null) {
     return (
       <LoadingScreen/>
     );
   }
+
+  const offersMap = offersNearby.concat(openedOffer);
+
   const {
     images,
     description,
@@ -73,6 +90,7 @@ function OfferScreen() {
     isPremium,
   } = openedOffer;
 
+  console.log(rating);
   const ratingWidth = transformRating(rating);
   const {avatarUrl, isPro, name} = host;
   const isAuthorized = authorizationStatus === AuthorizationStatus.AUTH;
@@ -117,12 +135,12 @@ function OfferScreen() {
                 <h1 className="property__name">
                   {title}
                 </h1>
-                <button className="property__bookmark-button button" type="button">
+                <BookMarkButton className={'property__bookmark-button'} offer={openedOffer}>
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
-                </button>
+                </BookMarkButton>
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
@@ -180,7 +198,9 @@ function OfferScreen() {
               </section>
             </div>
           </div>
-          <section className="property__map map"></section>
+          <section className="property__map map">
+            <Map offers={offersMap}/>
+          </section>
         </section>
         <NearbyOffersList/>
       </main>

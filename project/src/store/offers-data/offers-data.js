@@ -4,14 +4,18 @@ import {
   loadOffers,
   loadOffersNearBy,
   setDefaultCityFilter,
-  setOpenedOffer
+  setOpenedOffer,
+  changeFavoritesState, setSortType
 } from '../action';
 import {createReducer} from '@reduxjs/toolkit';
+import {findOffer} from '../../utils/common';
+import {SortType} from '../../const';
 
 const DEFAULT_CITY = 'Paris';
 
 const initialState = {
   city: DEFAULT_CITY,
+  sortType: SortType.POPULAR,
   offers: [],
   offersNearby: null,
   openedOffer: null,
@@ -39,7 +43,13 @@ const offersData = createReducer(initialState, (builder) => {
     })
     .addCase(loadOffersNearBy, (state, action) => {
       state.offersNearby = action.payload;
-    });
+    })
+    .addCase(changeFavoritesState, (state, action) => {
+      state.offers[findOffer(state.offers, action.payload.id)] = action.payload;
+    })
+    .addCase(setSortType, (state, action) => {
+      state.sortType = action.payload;
+    })
 });
 
 export {offersData};

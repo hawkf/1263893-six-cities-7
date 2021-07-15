@@ -29,4 +29,12 @@ export const APIRoute = {
   LOGIN: '/login',
   LOGOUT: '/logout',
   COMMENTS: '/comments/',
+  FAVORITE: '/favorite'
 };
+
+export const SortType = {
+  POPULAR: 'Popular',
+  PRICE_LOW_TO_HIGH: 'Price: high to low',
+  PRICE_HIGH_TO_LOW: 'Price: low to high',
+  TOP_RATED_FIRST: 'Top rated first',
+}

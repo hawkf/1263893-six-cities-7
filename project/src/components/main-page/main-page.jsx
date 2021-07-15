@@ -17,6 +17,7 @@ function MainPage() {
   const city = useSelector(getCity);
 
   const offers = getOffersByCity(city, allOffers);
+
   const isOffersEmpty = offers.length === 0;
 
   return (
@@ -52,7 +53,11 @@ function MainPage() {
               <OffersSortForm/>
               <CardList/>
             </section>
-            <Map/>
+            <div className="cities__right-section">
+              <section className="cities__map map">
+                <Map offers={offers}/>
+              </section>
+            </div>
           </div>}
         </div>
       </main>

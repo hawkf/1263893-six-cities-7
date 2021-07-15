@@ -31,7 +31,6 @@ export const updateOfferToClient = (offer) => {
         name: offer.host.name,
       },
       cardImage: offer['preview_image'],
-      rating: 4.8,
       isPremium: offer['is_premium'],
       location: offer.location,
     },

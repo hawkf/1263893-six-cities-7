@@ -7,12 +7,15 @@ import {DEFAULT_MARKER_URL, CURRENT_MARKER_URL} from '../../const';
 import {getOffersByCity} from '../../utils/common';
 import {getActiveOfferId, getCity, getOffers} from '../../store/offers-data/selectors';
 
-export function Map() {
+export function Map({offers}) {
+  if (offers === null) {
+    return null;
+  }
   const activeOfferId = useSelector(getActiveOfferId);
-  const allOffers = useSelector(getOffers);
+  /*const allOffers = useSelector(getOffers);
   const city = useSelector(getCity);
 
-  const offers = getOffersByCity(city, allOffers);
+  const offers = getOffersByCity(city, allOffers);*/
   const mapRef = useRef();
   const map = useMap(mapRef, offers[0].cityLocation);
   const defaultIcon = leaflet.icon({
@@ -58,11 +61,8 @@ export function Map() {
   }, [map, offers, activeOfferId]);
 
   return (
-    <div className="cities__right-section">
-      <section className="cities__map map">
-        <div id="map" ref={mapRef} style={{height: '100%'}}></div>
-      </section>
-    </div>);
+    <div id="map" ref={mapRef} style={{height: '100%'}}></div>
+    );
 }
 
 export default Map;
