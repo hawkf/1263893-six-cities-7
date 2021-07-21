@@ -29,9 +29,10 @@ export const fetchOffer = (id) => (dispatch, _getState, api) => (
     .catch(() => dispatch(redirectToRoute(AppRoute.PAGE_NOT_FOUND)))
 );
 
-export const fetchComments = (id) => (dispatch, _getState, api) => (
+export const fetchComments = (id, onFail) => (dispatch, _getState, api) => (
   api.get(`${APIRoute.COMMENTS}${id}`)
     .then(({data}) => dispatch(loadComments(data.map((item) => updateCommentToClient(item)))))
+    .catch(() => onFail())
 );
 
 export const checkAuth = () => (dispatch, _getState, api) => (

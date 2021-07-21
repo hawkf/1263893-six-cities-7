@@ -21,11 +21,9 @@ import BookMarkButton from '../bookmark-button/bookmark-button';
 import Map from '../map/map';
 
 function OfferScreen() {
-
   const {id} = useParams();
 
   const openedOffer = useSelector(getOpenedOffer);
-  const comments = useSelector(getComments);
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const offersNearby = useSelector(getOffersNearBy);
 
@@ -37,11 +35,6 @@ function OfferScreen() {
 
   const loadOffersNearBy = (offerId) => {
     dispatch(fetchOffersNearBy(id));
-  };
-
-
-  const loadComments = (offerId) => {
-    dispatch(fetchComments(offerId));
   };
 
   const resetOpenedOffer = () => {
@@ -59,7 +52,6 @@ function OfferScreen() {
   useEffect(() => {
     getOffer(id);
     setActiveOffer(id);
-    loadComments(id);
     loadOffersNearBy(id);
 
     return () => {
@@ -68,7 +60,7 @@ function OfferScreen() {
     };
   }, [id]);
 
-  if (openedOffer === null || comments === null || offersNearby === null) {
+  if (openedOffer === null || offersNearby === null) {
     return (
       <LoadingScreen/>
     );

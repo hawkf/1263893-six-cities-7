@@ -1,11 +1,21 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {login} from '../../store/api-actions';
 import {Logo} from '../logo/logo';
+import SignInOut from '../main-page/sign-in-out';
+import {Link} from 'react-router-dom';
 
 function AuthScreen() {
+  const MIN_PASSWORD_LENGTH = 1;
+  const [password, setPassword] = useState('');
+
   const loginRef = useRef();
-  const passwordRef = useRef();
+
+  let isFormReadyToSend = String(password).trim().length >= MIN_PASSWORD_LENGTH;
+
+  const onChangePasswordHandle = (evt) => {
+    setPassword(evt.target.value);
+  }
 
   const dispatch = useDispatch();
 
@@ -18,7 +28,7 @@ function AuthScreen() {
 
     onSubmit({
       login: loginRef.current.value,
-      password: passwordRef.current.value,
+      password: password,
     });
   };
 
@@ -31,11 +41,7 @@ function AuthScreen() {
             <nav className="header__nav">
               <ul className="header__nav-list">
                 <li className="header__nav-item user">
-                  <a className="header__nav-link header__nav-link--profile" href="#">
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__login">Sign in</span>
-                  </a>
+                  <SignInOut />
                 </li>
               </ul>
             </nav>
@@ -53,16 +59,16 @@ function AuthScreen() {
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
-                <input ref={passwordRef} className="login__input form__input" type="password" name="password" placeholder="Password" required=""/>
+                <input value={password} onChange={onChangePasswordHandle} className="login__input form__input" type="password" name="password" placeholder="Password" required=""/>
               </div>
-              <button className="login__submit form__submit button" type="submit">Sign in</button>
+              <button className="login__submit form__submit button" type="submit" disabled={!isFormReadyToSend}>Sign in</button>
             </form>
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <a className="locations__item-link" href="#">
+              <Link className="locations__item-link" to="#">
                 <span>Amsterdam</span>
-              </a>
+              </Link>
             </div>
           </section>
         </div>

@@ -22,7 +22,11 @@ function SignInOut() {
 
   if (authorizationStatus  === AuthorizationStatus.NO_AUTH) {
     return (
-      <span onClick={onSignInHandle} className="header__login">Sign in</span>
+      <Link onClick={onSignInHandle} className="header__nav-link header__nav-link--profile" to="#">
+        <div className="header__avatar-wrapper user__avatar-wrapper">
+        </div>
+        <span className="header__login">Sign in</span>
+      </Link>
     );
   }
   return (

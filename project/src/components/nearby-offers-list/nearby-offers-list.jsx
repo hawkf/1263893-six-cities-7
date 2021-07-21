@@ -6,9 +6,10 @@ import {getOffersNearBy} from '../../store/offers-data/selectors';
 function NearbyOffersList() {
   const offersNearby = useSelector(getOffersNearBy);
 
-  if (offersNearby === null) {
+  if (!Array.isArray(offersNearby)) {
     return null;
   }
+
   return (
     <div className="container">
       <section className="near-places places">

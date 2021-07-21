@@ -5,30 +5,36 @@ import {sortByDate} from '../../utils/offer';
 import {fetchComments} from '../../store/api-actions';
 import {getComments, getIsCommentFormSending} from '../../store/form-process/selectors';
 import {getOpenedOffer} from '../../store/offers-data/selectors';
+import swal from 'sweetalert';
 
 function CommentsList() {
+  const ON_FAIL_MESSAGE = 'Не удалосьзагрузить комментарии';
+
   const comments = useSelector(getComments);
   const isCommentFormSending = useSelector(getIsCommentFormSending);
   const openedOffer = useSelector(getOpenedOffer);
 
   const dispatch = useDispatch();
 
-  const loadComments = (offerId) => {
-    dispatch(fetchComments(offerId));
+  const onFailHandle = () => {
+    swal(ON_FAIL_MESSAGE);
   };
 
-
-  const resultComments = comments.slice().sort(sortByDate);
+  const loadComments = (offerId, onFail) => {
+    dispatch(fetchComments(offerId, onFail));
+  }
 
   useEffect(() => {
     if (isCommentFormSending === false) {
-      loadComments(openedOffer.id);
+      loadComments(openedOffer.id, onFailHandle);
     }
   }, [isCommentFormSending]);
 
-  if(comments === null) {
+  if (comments === null) {
     return null;
   }
+
+  const resultComments = comments.slice().sort(sortByDate);
 
   return (
     <>

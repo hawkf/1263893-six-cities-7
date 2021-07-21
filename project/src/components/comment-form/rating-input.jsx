@@ -2,11 +2,10 @@ import React, {useEffect, useRef} from 'react';
 import PropTypes from 'prop-types';
 
 function RatingInput({onRatingChangeHandle, value, isCommentFormSending}) {
-  let unCheckInput = true;
   const inputStar = useRef();
+
   useEffect(() => {
     if (isCommentFormSending === false) {
-      unCheckInput = !unCheckInput;
       inputStar.current.checked = false;
     }
   }, [isCommentFormSending]);

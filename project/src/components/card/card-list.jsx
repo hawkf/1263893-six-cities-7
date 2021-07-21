@@ -5,18 +5,20 @@ import {getOffersByCity} from '../../utils/common';
 import {getCity, getOffers, getSortType} from '../../store/offers-data/selectors';
 import {SortType} from '../../const';
 import {sortPriceHighToLow, sortPriceLowToHigh, sortRatingTop} from '../../utils/offer';
+import EmptyList from '../empty-list/empty-list';
 
 function CardList() {
   const offers = useSelector(getOffers);
   const city = useSelector(getCity);
   const sortType = useSelector(getSortType);
 
+  if (city === null) {
+    return <EmptyList />;
+  }
+
   let sortedOffers;
 
   switch (sortType) {
-    case SortType.POPULAR:
-      sortedOffers = getOffersByCity(city, offers);
-      break;
     case SortType.PRICE_LOW_TO_HIGH:
       sortedOffers = getOffersByCity(city, offers).slice().sort(sortPriceLowToHigh);
       break;
@@ -25,6 +27,9 @@ function CardList() {
       break;
     case SortType.TOP_RATED_FIRST:
       sortedOffers = getOffersByCity(city, offers).slice().sort(sortRatingTop);
+      break;
+    default:
+      sortedOffers = getOffersByCity(city, offers);
   }
 
   return (

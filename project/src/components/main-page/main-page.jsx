@@ -44,21 +44,20 @@ function MainPage() {
         <h1 className="visually-hidden">Cities</h1>
         <CitiesMenu/>
         <div className="cities">
-          {isOffersEmpty && <EmptyList/>}
-          {!isOffersEmpty &&
-          <div className="cities__places-container container">
-            <section className="cities__places places">
-              <h2 className="visually-hidden">Places</h2>
-              <OffersDescription/>
-              <OffersSortForm/>
-              <CardList/>
-            </section>
-            <div className="cities__right-section">
-              <section className="cities__map map">
-                <Map offers={offers}/>
+          {isOffersEmpty ? <EmptyList/> : (
+            <div className="cities__places-container container">
+              <section className="cities__places places">
+                <h2 className="visually-hidden">Places</h2>
+                <OffersDescription/>
+                <OffersSortForm/>
+                <CardList/>
               </section>
-            </div>
-          </div>}
+              <div className="cities__right-section">
+                <section className="cities__map map">
+                  <Map offers={offers}/>
+                </section>
+              </div>
+            </div>)}
         </div>
       </main>
     </div>

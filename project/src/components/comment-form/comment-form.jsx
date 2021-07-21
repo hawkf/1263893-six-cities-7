@@ -13,7 +13,7 @@ function CommentForm({offerId}) {
 
   const MIN_TEXT_LENGTH = 50;
   const MAX_TEXT_LENGTH = 300;
-  const RATING_VALUES = [1, 2, 3, 4, 5];
+  const RATING_VALUES = [5, 4, 3, 2, 1];
   const ON_FAIL_MESSAGE = 'Произошла ошибка во время отправки коментария';
 
   const isCommentFormSending = useSelector(getIsCommentFormSending);
@@ -41,19 +41,19 @@ function CommentForm({offerId}) {
     setText(evt.target.value);
   }
 
-  function onFail1() {
+  function onFail() {
     swal(ON_FAIL_MESSAGE);
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    sendFormData({comment: text, rating: rating}, offerId, () => onFail1());
+    sendFormData({comment: text, rating: rating}, offerId, () => onFail());
   }
 
   const isFormReadyToSend = !isCommentFormSending &&
     rating !== null &&
-    text.length >= MIN_TEXT_LENGTH &&
-    text.length <= MAX_TEXT_LENGTH;
+    String(text).trim().length >= MIN_TEXT_LENGTH &&
+    String(text).trim().length <= MAX_TEXT_LENGTH;
 
 
   return (
