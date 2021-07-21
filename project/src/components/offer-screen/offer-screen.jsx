@@ -7,14 +7,13 @@ import {Logo} from '../logo/logo';
 import CommentForm from '../comment-form/comment-form';
 import UserName from '../main-page/user-name';
 import SignInOut from '../main-page/sign-in-out';
-import {fetchOffer, fetchComments, fetchOffersNearBy} from '../../store/api-actions';
+import {fetchOffer, fetchOffersNearBy} from '../../store/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {changeActiveOfferId, setOpenedOffer} from '../../store/action';
 import CommentsList from '../comments-list.jsx/comments-list';
 import {AuthorizationStatus} from '../../const';
 import NearbyOffersList from '../nearby-offers-list/nearby-offers-list';
 import {getOffersNearBy, getOpenedOffer} from '../../store/offers-data/selectors';
-import {getComments} from '../../store/form-process/selectors';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 import {loadComments as loadComentsToState} from '../../store/action';
 import BookMarkButton from '../bookmark-button/bookmark-button';
@@ -29,27 +28,28 @@ function OfferScreen() {
 
   const dispatch = useDispatch();
 
-  const getOffer = (offerId) => {
-    dispatch(fetchOffer(offerId));
-  };
-
-  const loadOffersNearBy = (offerId) => {
-    dispatch(fetchOffersNearBy(id));
-  };
-
-  const resetOpenedOffer = () => {
-    dispatch(setOpenedOffer(null));
-  };
-
-  const resetComments = () => {
-    dispatch(loadComentsToState(null));
-  };
-
-  const setActiveOffer = (offerId) => {
-    dispatch(changeActiveOfferId(offerId));
-  };
-
   useEffect(() => {
+    const getOffer = (offerId) => {
+      dispatch(fetchOffer(offerId));
+    };
+
+    const loadOffersNearBy = (offerId) => {
+      dispatch(fetchOffersNearBy(id));
+    };
+
+
+    const resetOpenedOffer = () => {
+      dispatch(setOpenedOffer(null));
+    };
+
+    const resetComments = () => {
+      dispatch(loadComentsToState(null));
+    };
+
+    const setActiveOffer = (offerId) => {
+      dispatch(changeActiveOfferId(offerId));
+    };
+
     getOffer(id);
     setActiveOffer(id);
     loadOffersNearBy(id);
@@ -58,7 +58,7 @@ function OfferScreen() {
       resetOpenedOffer();
       resetComments();
     };
-  }, [id]);
+  }, [id, dispatch]);
 
   if (openedOffer === null || offersNearby === null) {
     return (
@@ -112,7 +112,7 @@ function OfferScreen() {
             <div className="property__gallery">
               {images.map((image) => (
                 <div key={nanoid()} className="property__image-wrapper">
-                  <img className="property__image" src={image} alt="Photo studio"/>
+                  <img className="property__image" src={image} alt="Studio"/>
                 </div>))}
             </div>
           </div>

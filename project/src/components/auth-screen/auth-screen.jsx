@@ -11,11 +11,11 @@ function AuthScreen() {
 
   const loginRef = useRef();
 
-  let isFormReadyToSend = String(password).trim().length >= MIN_PASSWORD_LENGTH;
+  const isFormReadyToSend = String(password).trim().length >= MIN_PASSWORD_LENGTH;
 
   const onChangePasswordHandle = (evt) => {
     setPassword(evt.target.value);
-  }
+  };
 
   const dispatch = useDispatch();
 

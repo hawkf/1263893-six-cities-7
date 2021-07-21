@@ -36,7 +36,7 @@ function Card({offer}) {
       <CardMark isPremium={isPremium}/>
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={OFFER_PAGE}>
-          <img className="place-card__image" src={cardImage} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={cardImage} width="260" height="200" alt="Offer"/>
         </Link>
       </div>
       <div className="place-card__info">

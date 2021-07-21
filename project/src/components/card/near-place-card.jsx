@@ -18,7 +18,7 @@ export function NearPlaceCard({offer}) {
     <article className="near-places__card place-card">
       <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={OFFER_PAGE}>
-          <img className="place-card__image" src={cardImage} width="260" height="200" alt="Place image"/>
+          <img className="place-card__image" src={cardImage} width="260" height="200" alt="Place"/>
         </Link>
       </div>
       <div className="place-card__info">

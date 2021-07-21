@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {FavoriteCard} from '../card/favorite-card';
 import CardProp from '../card/card.prop';
+import {Link} from 'react-router-dom';
 
 function getCityFavoriteOffers(cityName, favoriteOffers) {
   const resultFavoriteOffers = favoriteOffers.filter(((item) => item.cityName === cityName));
@@ -20,9 +21,9 @@ function FavoritesList({favoriteOffers}) {
           <li key={cityName} className="favorites__locations-items">
             <div className="favorites__locations locations locations--current">
               <div className="locations__item">
-                <a className="locations__item-link" href="#">
+                <Link className="locations__item-link" to="#">
                   <span>{cityName}</span>
-                </a>
+                </Link>
               </div>
             </div>
             <div className="favorites__places">

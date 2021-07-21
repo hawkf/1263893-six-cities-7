@@ -53,7 +53,7 @@ export function Map({offers}) {
       markers.clearLayers();
 
     };
-  }, [map, offers, activeOfferId]);
+  }, [map, offers, activeOfferId, currentIcon, defaultIcon]);
 
   return (
     <div id="map" ref={mapRef} style={{height: '100%'}}></div>

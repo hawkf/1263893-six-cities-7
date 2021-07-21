@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {changeCity} from '../../store/action';
 import {CITIES} from '../../const';
 import {getCity} from '../../store/offers-data/selectors';
+import {Link} from 'react-router-dom';
 
 function CitiesMenu() {
   const cityActive = useSelector(getCity);
@@ -19,9 +20,9 @@ function CitiesMenu() {
         <ul className="locations__list tabs__list">
           {CITIES.map((item) => (
             <li onClick={() => changeActiveCity(item)} key={item} className="locations__item">
-              <a key={item} className={`locations__item-link tabs__item ${item === cityActive ? 'tabs__item--active' : ''}`} href="#">
+              <Link key={item} className={`locations__item-link tabs__item ${item === cityActive ? 'tabs__item--active' : ''}`} to="#">
                 <span>{item}</span>
-              </a>
+              </Link>
             </li>))}
         </ul>
       </section>

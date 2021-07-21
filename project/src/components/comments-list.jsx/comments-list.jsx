@@ -22,13 +22,13 @@ function CommentsList() {
 
   const loadComments = (offerId, onFail) => {
     dispatch(fetchComments(offerId, onFail));
-  }
+  };
 
   useEffect(() => {
     if (isCommentFormSending === false) {
       loadComments(openedOffer.id, onFailHandle);
     }
-  }, [isCommentFormSending]);
+  });
 
   if (comments === null) {
     return null;
