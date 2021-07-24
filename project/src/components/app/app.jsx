@@ -9,10 +9,11 @@ import {AppRoute} from '../../const';
 import FavoritesScreen from '../favorites-screen/favorites-screen';
 import {isCheckedAuth} from '../../utils/common';
 import AuthScreen from '../auth-screen/auth-screen';
-import PrivateRoute from '../private-route/private-route';
+import PrivateRouteFavorites from '../private-route-favorites/private-route-favorites';
 import browserHistory from '../../browser-history';
 import {getIsDataLoaded} from '../../store/offers-data/selectors';
 import {getAuthorizationStatus} from '../../store/user/selectors';
+import PrivateRouteLogin from '../private-route-login/private-route-login';
 
 function App(props) {
 
@@ -32,15 +33,18 @@ function App(props) {
         <Route exact path={AppRoute.ROOT}>
           <MainPage/>
         </Route>
-        <Route exact path={AppRoute.LOGIN}>
-          <AuthScreen/>
-        </Route>
-        <PrivateRoute
+        <PrivateRouteLogin
+          exact
+          path={AppRoute.LOGIN}
+          render={() => <AuthScreen/>}
+        >
+        </PrivateRouteLogin>
+        <PrivateRouteFavorites
           exact
           path={AppRoute.FAVORITES}
           render={() => <FavoritesScreen/>}
         >
-        </PrivateRoute>
+        </PrivateRouteFavorites>
         <Route exact path={AppRoute.FAVORITES}>
           <FavoritesScreen/>
         </Route>

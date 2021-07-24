@@ -6,7 +6,7 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import {getAuthorizationStatus} from '../../store/user/selectors';
 
 
-function PrivateRoute({render, path, exact}) {
+function PrivateRouteFavorites({render, path, exact}) {
   const authorizationStatus = useSelector(getAuthorizationStatus);
 
   return (
@@ -22,11 +22,11 @@ function PrivateRoute({render, path, exact}) {
   );
 }
 
-PrivateRoute.propTypes = {
+PrivateRouteFavorites.propTypes = {
   exact: PropTypes.bool.isRequired,
   path: PropTypes.string.isRequired,
   render: PropTypes.func.isRequired,
 };
 
-export default PrivateRoute;
+export default PrivateRouteFavorites;
 
