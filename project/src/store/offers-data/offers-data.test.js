@@ -24,13 +24,13 @@ describe('Reducer: offersData', () => {
     const changeActiveOfferIdAction = {
       type: ActionType.CHANGE_ACTIVE_OFFER_ID,
       payload: 1,
-    }
+    };
 
     expect(offersData(state, changeActiveOfferIdAction))
       .toEqual(Object.assign(
         {},
         state,
-        {activeOfferId: 1}
+        {activeOfferId: 1},
       ));
   });
 
@@ -38,12 +38,13 @@ describe('Reducer: offersData', () => {
     const changeCityAction = {
       type: ActionType.CHANGE_CITY,
       payload: 'London',
-    }
+    };
+
     expect(offersData(state, changeCityAction))
       .toEqual(Object.assign(
         {},
         state,
-        {city: 'London'}
+        {city: 'London'},
       ));
   });
 
@@ -52,7 +53,7 @@ describe('Reducer: offersData', () => {
     const loadOffersAction = {
       type: ActionType.LOAD_OFFERS,
       payload: ['offers1', 'offer2'],
-    }
+    };
 
     expect(offersData(state, loadOffersAction))
       .toEqual(Object.assign(
@@ -61,7 +62,7 @@ describe('Reducer: offersData', () => {
         {
           offers: ['offers1', 'offer2'],
           isDataLoaded: true,
-        }
+        },
       ));
   });
 
@@ -69,7 +70,7 @@ describe('Reducer: offersData', () => {
     const loadOffersNearByAction = {
       type: ActionType.LOAD_OFFERS_NEARBY,
       payload: ['offers1', 'offer2'],
-    }
+    };
 
     expect(offersData(state, loadOffersNearByAction))
       .toEqual(Object.assign(
@@ -78,19 +79,19 @@ describe('Reducer: offersData', () => {
         {
           offersNearby: ['offers1', 'offer2'],
 
-        }
+        },
       ));
   });
 
   it('should set default city in state', () => {
     const setDefaultCityFilterAction = {
-      type: ActionType.SET_DEFAULT_CITY_FILTER
-    }
+      type: ActionType.SET_DEFAULT_CITY_FILTER,
+    };
     expect(offersData(state, setDefaultCityFilterAction))
       .toEqual(Object.assign(
         {},
         state,
-        {city: DEFAULT_CITY}
+        {city: DEFAULT_CITY},
       ));
   });
 
@@ -98,12 +99,12 @@ describe('Reducer: offersData', () => {
     const setOpenedOfferAction = {
       type: ActionType.SET_OPENED_OFFER,
       payload: {id: 1, host: 'Nike'},
-    }
+    };
     expect(offersData(state, setOpenedOfferAction))
       .toEqual(Object.assign(
         {},
         state,
-        {openedOffer: {id: 1, host: 'Nike'}}
+        {openedOffer: {id: 1, host: 'Nike'}},
       ));
   });
 });

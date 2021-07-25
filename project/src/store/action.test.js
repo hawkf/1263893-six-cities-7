@@ -73,21 +73,21 @@ describe('Actions', () => {
   });
 
   it('action creator for redirect to route, returns correct action', () => {
-    const url = '/root'
+    const url = '/root';
     const expectedAction = {
       type: ActionType.REDIRECT_TO_ROUTE,
-      payload: url
+      payload: url,
     };
 
     expect(redirectToRoute(url)).toEqual(expectedAction);
   });
 
   it('action creator for set user email, returns correct action', () => {
-    const userEmail = 'test@mail.ru'
+    const userEmail = 'test@mail.ru';
 
     const expectedAction = {
       type: ActionType.SET_USER_EMAIL,
-      payload: userEmail
+      payload: userEmail,
     };
 
     expect(setUserEmail(userEmail)).toEqual(expectedAction);
@@ -97,18 +97,18 @@ describe('Actions', () => {
     const offer = {
       id: 1,
       city: 'Paris',
-    }
+    };
 
     const expectedAction = {
       type: ActionType.SET_OPENED_OFFER,
-      payload: offer
+      payload: offer,
     };
 
     expect(setOpenedOffer(offer)).toEqual(expectedAction);
   });
 
   it('action creator for load comments, returns correct action', () => {
-    const comments = ['test', 'test']
+    const comments = ['test', 'test'];
 
     const expectedAction = {
       type: ActionType.LOAD_COMMENTS,

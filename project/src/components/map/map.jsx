@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {useSelector} from 'react-redux';
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
-import useMap from './useMap';
+import useMap from '../../hooks/useMap';
 import {DEFAULT_MARKER_URL, CURRENT_MARKER_URL} from '../../const';
 import {getActiveOfferId} from '../../store/offers-data/selectors';
 import cardProp from '../card/card.prop';
