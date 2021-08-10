@@ -2,6 +2,7 @@
   "name": "project",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://hawkf.github.io/1263893-six-cities-7/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.0",
     "axios": "^0.21.1",
@@ -26,7 +27,9 @@
     "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "eslint": "eslint --ext .jsx --ext .js src/",
-    "test:eslint": "npm run eslint"
+    "test:eslint": "npm run eslint",
+    "predeploy": "react-scripts build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
