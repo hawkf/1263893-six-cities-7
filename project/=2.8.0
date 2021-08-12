@@ -1,0 +1,29 @@
+
+> core-js@2.6.12 postinstall D:\programing\1263893-six-cities-7\project\node_modules\babel-polyfill\node_modules\core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
+[96mThank you for using core-js ([94m https://github.com/zloirock/core-js [96m) for polyfilling JavaScript standard library![0m
+
+[96mThe project needs your help! Please consider supporting of core-js on Open Collective or Patreon: [0m
+[96m>[94m https://opencollective.com/core-js [0m
+[96m>[94m https://www.patreon.com/zloirock [0m
+
+[96mAlso, the author of core-js ([94m https://github.com/zloirock [96m) is looking for a good job -)[0m
+
+
+> core-js@2.6.12 postinstall D:\programing\1263893-six-cities-7\project\node_modules\babel-register\node_modules\core-js
+> node -e "try{require('./postinstall')}catch(e){}"
+
++ tsutils@3.21.0
++ peer@0.6.1
++ of@1.0.0
++ requires@1.0.2
++ a@2.1.2
++ typescript@4.3.5
+added 60 packages from 69 contributors, updated 1 package and audited 2059 packages in 57.68s
+
+151 packages are looking for funding
+  run `npm fund` for details
+
+found 3 moderate severity vulnerabilities
+  run `npm audit fix` to fix them, or `npm audit` for details
